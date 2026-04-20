@@ -8,28 +8,22 @@ import os
 from settings import SAVES_DIR
 
 
-# ════════════════════════════════════════════════════════════════
-#  CẤU TRÚC DỮ LIỆU
-# ════════════════════════════════════════════════════════════════
 
 _DEFAULT_SAVE = {
     "highscores": {
-        "1": [],   # List of [score, timestamp] cho level 1
+        "1": [],
         "2": [],
         "3": [],
     },
-    "unlocked_levels": [1],   # Level đã mở
+    "unlocked_levels": [1],
     "total_games":  0,
     "total_kills":  0,
 }
 
 _SAVE_FILE = os.path.join(SAVES_DIR, "save.json")
-_MAX_HIGHSCORES = 5   # Giữ top 5 cao nhất mỗi màn
+_MAX_HIGHSCORES = 5
 
 
-# ════════════════════════════════════════════════════════════════
-#  HÀM TIỆN ÍCH
-# ════════════════════════════════════════════════════════════════
 
 def _ensure_dir():
     """Đảm bảo thư mục saves tồn tại."""
@@ -50,7 +44,6 @@ def load_save():
     try:
         with open(_SAVE_FILE, 'r', encoding='utf-8') as f:
             data = json.load(f)
-        # Merge với default để xử lý các khóa mới
         merged = dict(_DEFAULT_SAVE)
         merged.update(data)
         return merged
@@ -69,9 +62,6 @@ def _write_save(data):
         return False
 
 
-# ════════════════════════════════════════════════════════════════
-#  ĐIỂM CAO (HIGHSCORE)
-# ════════════════════════════════════════════════════════════════
 
 def submit_score(level_id, score, wave_reached, victory=False):
     """
@@ -99,13 +89,10 @@ def submit_score(level_id, score, wave_reached, victory=False):
 
     scores = data["highscores"].get(key, [])
     scores.append(entry)
-    # Sắp xếp giảm dần theo điểm
     scores.sort(key=lambda x: x["score"], reverse=True)
-    # Giữ top N
     scores = scores[:_MAX_HIGHSCORES]
     data["highscores"][key] = scores
 
-    # Mở khóa màn kế tiếp nếu thắng
     if victory:
         next_lv = level_id + 1
         unlocked = data.get("unlocked_levels", [1])
@@ -113,12 +100,10 @@ def submit_score(level_id, score, wave_reached, victory=False):
             unlocked.append(next_lv)
             data["unlocked_levels"] = unlocked
 
-    # Thống kê
     data["total_games"] = data.get("total_games", 0) + 1
 
     _write_save(data)
 
-    # Tính thứ hạng
     for rank, e in enumerate(scores, 1):
         if e is entry or (e["score"] == score and
                           e["date"] == entry["date"]):

@@ -40,18 +40,13 @@ class Projectile:
         self.tower_type = tower_type
 
         self.dead    = False
-        self.hit     = False   # Đã chạm mục tiêu?
+        self.hit     = False
 
-        # Trail (vết đạn)
         self.trail: list[tuple] = []
         self.max_trail = 8
 
-        # Lifetime tối đa (phòng trường hợp đạn lạc)
         self.lifetime = 4.0
 
-    # ════════════════════════════════════════════════════════════
-    #  UPDATE
-    # ════════════════════════════════════════════════════════════
 
     def update(self, dt, enemies, particles_list, gold_callback, kill_callback):
         """
@@ -72,24 +67,20 @@ class Projectile:
             self.dead = True
             return
 
-        # Kiểm tra target còn sống không
         if self.target.dead:
             self.dead = True
             return
 
-        # Di chuyển về phía target
         tx, ty = self.target.px, self.target.py
         dx, dy = tx - self.x, ty - self.y
         dist   = math.hypot(dx, dy)
 
-        # Lưu vết
         self.trail.append((int(self.x), int(self.y)))
         if len(self.trail) > self.max_trail:
             self.trail.pop(0)
 
         move = self.speed * dt
         if dist <= move + self.radius:
-            # Chạm mục tiêu!
             self.x = tx
             self.y = ty
             self._on_hit(enemies, particles_list, gold_callback, kill_callback)
@@ -101,7 +92,6 @@ class Projectile:
         """Xử lý khi đạn chạm mục tiêu."""
         from particle import spawn_hit_particles, spawn_explosion_particles
 
-        # Sát thương trực tiếp vào target
         killed = self.target.take_damage(self.damage)
         spawn_hit_particles(particles_list, int(self.x), int(self.y),
                             self.color)
@@ -114,7 +104,6 @@ class Projectile:
             gold_callback(self.target.reward)
             kill_callback()
 
-        # AOE (đại bác)
         if self.splash > 0:
             for e in enemies:
                 if e is self.target or e.dead:
@@ -134,16 +123,12 @@ class Projectile:
 
         self.dead = True
 
-    # ════════════════════════════════════════════════════════════
-    #  VẼ
-    # ════════════════════════════════════════════════════════════
 
     def draw(self, surface):
         """Vẽ đạn và vết bay."""
         if self.dead:
             return
 
-        # Vết đạn (trail)
         for i, (tx, ty) in enumerate(self.trail):
             alpha = int(180 * i / max(len(self.trail), 1))
             r     = max(self.radius - (len(self.trail)-i), 1)
@@ -152,17 +137,13 @@ class Projectile:
                                (r+1, r+1), r)
             surface.blit(trail_surf, (tx - r - 1, ty - r - 1))
 
-        # Thân đạn
         cx, cy = int(self.x), int(self.y)
 
-        # Glow
         glow_r = self.radius + 4
         glow   = pygame.Surface((glow_r*2, glow_r*2), pygame.SRCALPHA)
         pygame.draw.circle(glow, (*self.color, 80), (glow_r, glow_r), glow_r)
         surface.blit(glow, (cx - glow_r, cy - glow_r))
 
-        # Viền sáng
         pygame.draw.circle(surface, (255, 255, 255),
                            (cx, cy), self.radius + 1)
-        # Nhân
         pygame.draw.circle(surface, self.color, (cx, cy), self.radius)

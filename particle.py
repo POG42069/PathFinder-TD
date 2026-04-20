@@ -22,10 +22,10 @@ class Particle:
         self.vx       = float(vx)
         self.vy       = float(vy)
         self.color    = color
-        self.lifetime = lifetime    # giây tổng
-        self.age      = 0.0         # giây đã sống
+        self.lifetime = lifetime
+        self.age      = 0.0
         self.radius   = radius
-        self.gravity  = gravity     # pixels/s^2 xuống dưới
+        self.gravity  = gravity
         self.alpha_fade = alpha_fade
         self.dead     = False
 
@@ -39,7 +39,6 @@ class Particle:
         self.x  += self.vx * dt
         self.y  += self.vy * dt
         self.vy += self.gravity * dt
-        # Ma sát nhẹ
         self.vx *= 0.97
         self.vy *= 0.97
 
@@ -89,7 +88,7 @@ class TextParticle:
         self.lifetime = lifetime
         self.age      = 0.0
         self.dead     = False
-        self.vy       = -60.0   # byte lên trên
+        self.vy       = -60.0
 
     def update(self, dt):
         if self.dead:
@@ -99,7 +98,7 @@ class TextParticle:
             self.dead = True
             return
         self.y  += self.vy * dt
-        self.vy *= 0.95   # giảm dần
+        self.vy *= 0.95
 
     def draw(self, surface):
         if self.dead:
@@ -112,9 +111,6 @@ class TextParticle:
                                   int(self.y) - txt_surf.get_height()//2))
 
 
-# ════════════════════════════════════════════════════════════════
-#  HÀM SPAWN CÁC HIỆU ỨNG
-# ════════════════════════════════════════════════════════════════
 
 def spawn_hit_particles(particles, x, y, color, count=6):
     """Tạo tia sáng nhỏ khi đạn chạm quái."""
@@ -131,7 +127,6 @@ def spawn_hit_particles(particles, x, y, color, count=6):
 
 def spawn_explosion_particles(particles, x, y, color, count=18):
     """Tạo vụ nổ phong phú khi quái chết."""
-    # Mảnh tung ra
     for _ in range(count):
         angle  = random.uniform(0, math.pi * 2)
         speed  = random.uniform(60, 200)
@@ -147,7 +142,6 @@ def spawn_explosion_particles(particles, x, y, color, count=18):
         particles.append(Particle(x, y, vx, vy, clr, life, r,
                                    gravity=120))
 
-    # Tia sáng
     for _ in range(6):
         angle = random.uniform(0, math.pi * 2)
         speed = random.uniform(100, 250)
@@ -193,7 +187,6 @@ def update_particles(particles, dt):
     """Cập nhật tất cả particles và xóa cái đã chết."""
     for p in particles:
         p.update(dt)
-    # Xóa dead particles
     particles[:] = [p for p in particles if not p.dead]
 
 

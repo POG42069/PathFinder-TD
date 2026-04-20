@@ -45,7 +45,6 @@ class GameSession:
         self.level   = level_data
         self.result  = None
 
-        # ── Khởi tạo lưới bản đồ ──────────────────────────────
         self.grid = Grid(
             rows      = GRID_ROWS,
             cols      = GRID_COLS,
@@ -54,46 +53,35 @@ class GameSession:
             obstacles  = level_data.get('obstacles', []),
         )
 
-        # ── Trạng thái game ────────────────────────────────────
         self.hp       = level_data.get('starting_hp',   STARTING_HP)
         self.max_hp   = self.hp
         self.gold     = level_data.get('starting_gold', STARTING_GOLD)
         self.score    = 0
         self.kills    = 0
         self.paused   = False
-        self.speed    = 1        # Hệ số tốc độ (1 hoặc 2)
+        self.speed    = 1
 
-        # ── Hệ thống Wave ──────────────────────────────────────
         self.wave_mgr = WaveManager()
 
-        # ── Đạn & Particles ────────────────────────────────────
         self.projectiles = []
         self.particles   = []
 
-        # ── UI ─────────────────────────────────────────────────
         self.hud         = HUD(screen)
         self.tower_panel = TowerPanel(screen)
         self.pause_overlay = PauseOverlay(screen)
 
-        # ── Chọn tháp ──────────────────────────────────────────
-        self.selected_tower_obj = None   # Tháp đang được chọn trên lưới
+        self.selected_tower_obj = None
         self.hover_cell         = None
 
-        # ── Font ───────────────────────────────────────────────
         self.font_notify = font_manager.get(18, bold=True)
 
-        # Thông báo tạm thời
         self._notify      = ""
         self._notify_timer = 0.0
         self._notify_color = C_WHITE
 
-        # ── Bắt đầu wave 1 tự động sau 1 giây ─────────────────
         self.wave_mgr.break_timer = 2.0
         self.wave_mgr.state       = 'break'
 
-    # ════════════════════════════════════════════════════════════
-    #  HANDLE EVENTS
-    # ════════════════════════════════════════════════════════════
 
     def handle_event(self, event):
         if self.paused:
@@ -108,13 +96,11 @@ class GameSession:
             self._handle_key(event.key)
             return
 
-        # Panel events
         panel_result = self.tower_panel.handle_event(event, self.gold)
         if panel_result:
             self._handle_panel_action(panel_result)
             return
 
-        # Click lên lưới
         if event.type == pygame.MOUSEBUTTONDOWN:
             self._handle_grid_click(event)
 
@@ -122,7 +108,6 @@ class GameSession:
         if key == pygame.K_p:
             self.paused = not self.paused
         elif key == pygame.K_ESCAPE:
-            # Hủy chọn tháp, hoặc về menu
             if self.tower_panel.selected_type or self.selected_tower_obj:
                 self.tower_panel.selected_type  = None
                 self.tower_panel.selected_tower = None
@@ -137,7 +122,6 @@ class GameSession:
             self.speed = 1
             self._notify_msg("Tốc độ x1", C_WHITE)
         elif key == pygame.K_SPACE:
-            # Gọi wave sớm
             if self.wave_mgr.state == 'idle':
                 self._start_wave()
 
@@ -166,10 +150,8 @@ class GameSession:
         row, col = cell
 
         if self.tower_panel.selected_type:
-            # Đang ở chế độ xây tháp
             self._try_place_tower(row, col)
         else:
-            # Chọn tháp đã xây để xem info / bán
             tower = self.grid.get_tower_at(row, col)
             if tower:
                 self.selected_tower_obj          = tower
@@ -194,7 +176,6 @@ class GameSession:
 
         if success:
             self.gold -= cost
-            # Cập nhật path cho tất cả quái đang sống
             for enemy in self.wave_mgr.enemies:
                 enemy.update_path_from_current(self.grid)
             self._notify_msg(f"Đã xây {data['name']}", data['color'])
@@ -209,7 +190,6 @@ class GameSession:
         removed = self.grid.remove_tower(t.row, t.col)
         if removed:
             self.gold += removed.sell_value
-            # Cập nhật path
             for enemy in self.wave_mgr.enemies:
                 enemy.update_path_from_current(self.grid)
             self._notify_msg(f"Bán được {removed.sell_value}g", C_GOLD)
@@ -220,9 +200,6 @@ class GameSession:
         if self.wave_mgr.can_start_wave():
             self.wave_mgr.start_next_wave(self.grid)
 
-    # ════════════════════════════════════════════════════════════
-    #  UPDATE
-    # ════════════════════════════════════════════════════════════
 
     def update(self, dt):
         if self.paused or self.result:
@@ -230,18 +207,14 @@ class GameSession:
                 self.pause_overlay.update(dt)
             return
 
-        # Hệ số tốc độ
         dt_fast = dt * self.speed
 
-        # ── Wave manager ──
         self.wave_mgr.update(dt_fast, self.grid,
                               on_wave_complete=self._on_wave_complete)
 
-        # ── Tháp bắn ──
         for tower in self.grid.all_towers():
             tower.update(dt_fast, self.wave_mgr.enemies, self.projectiles)
 
-        # ── Đạn ──
         for proj in self.projectiles:
             proj.update(dt_fast, self.wave_mgr.enemies,
                         self.particles,
@@ -249,7 +222,6 @@ class GameSession:
                         self._on_kill)
         self.projectiles = [p for p in self.projectiles if not p.dead]
 
-        # ── Quái đến base ──
         reached = []
         for enemy in self.wave_mgr.enemies:
             if enemy.reached_base:
@@ -265,23 +237,19 @@ class GameSession:
                 self._end_game(victory=False)
                 return
 
-        # ── Particles ──
         update_particles(self.particles, dt_fast)
 
-        # ── Notify ──
         if self._notify_timer > 0:
             self._notify_timer -= dt
 
-        # ── Panel ──
         mx, my = pygame.mouse.get_pos()
         cell = self.grid.pixel_to_cell(mx, my)
         self.grid.hover_cell = cell
 
         self.tower_panel.update(dt, self.gold)
-        self.tower_panel.selected_type  # Giữ đồng bộ
+        self.tower_panel.selected_type
         self.grid.selected_type = self.tower_panel.selected_type
 
-        # ── Kiểm tra thắng ──
         if (self.wave_mgr.state == 'done' and
                 self.wave_mgr.all_enemies_dead and
                 self.result is None):
@@ -332,48 +300,36 @@ class GameSession:
         self._notify_color = color
         self._notify_timer = duration
 
-    # ════════════════════════════════════════════════════════════
-    #  DRAW
-    # ════════════════════════════════════════════════════════════
 
     def draw(self):
         self.screen.fill(C_BG)
 
-        # Lưới
         show_path = True
         self.grid.draw(self.screen, show_path=show_path)
 
-        # Tháp (trên lưới)
         for tower in self.grid.all_towers():
             tower.draw(self.screen)
 
-        # Tháp đang chọn → vẽ vòng tầm bắn
         if self.selected_tower_obj and not self.selected_tower_obj.dead if hasattr(self.selected_tower_obj, 'dead') else False:
             pass
         if self.selected_tower_obj:
             self.selected_tower_obj.draw_range(self.screen)
 
-        # Quái
         for enemy in self.wave_mgr.enemies:
             enemy.draw(self.screen)
 
-        # Đạn
         for proj in self.projectiles:
             proj.draw(self.screen)
 
-        # Particles
         draw_particles(self.particles, self.screen)
 
-        # HUD
         wt   = self.wave_mgr.get_progress_text()
         brkT = self.wave_mgr.get_break_timer()
         self.hud.draw(self.hp, self.max_hp, self.gold, self.score,
                        wt, self.wave_mgr.wave_idx, brkT, self.speed)
 
-        # Panel bên phải
         self.tower_panel.draw(self.gold, self.wave_mgr)
 
-        # Thông báo tạm thời
         if self._notify and self._notify_timer > 0:
             alpha = int(255 * min(self._notify_timer, 0.5) / 0.5)
             surf  = self.font_notify.render(self._notify, True,
@@ -383,15 +339,11 @@ class GameSession:
                              surf.get_rect(center=(GRID_WIDTH//2,
                                                     HUD_HEIGHT + 30)))
 
-        # Màn hình kết thúc / tạm dừng
         if self.paused:
             self.pause_overlay.draw()
         elif self.result in ('game_over', 'victory'):
             self._end_screen.draw()
 
-    # ════════════════════════════════════════════════════════════
-    #  END SCREEN EVENTS
-    # ════════════════════════════════════════════════════════════
 
     def handle_end_event(self, event):
         """Xử lý event trên màn kết thúc."""

@@ -35,12 +35,11 @@ class Tower:
         self.col       = col
         self.tower_type = tower_type
 
-        # Lấy thông số từ settings
         data = TOWER_DATA[tower_type]
         self.name          = data['name']
         self.damage        = data['damage']
-        self.range_cells   = data['range']          # tính bằng ô
-        self.fire_rate     = data['fire_rate']       # lần/giây
+        self.range_cells   = data['range']
+        self.fire_rate     = data['fire_rate']
         self.cost          = data['cost']
         self.sell_value    = data['sell_value']
         self.color         = data['color']
@@ -50,21 +49,16 @@ class Tower:
         self.bullet_size   = data['bullet_size']
         self.splash_radius = data['splash_radius']
 
-        # Trạng thái
-        self.target       = None           # Quái đang nhắm
-        self.cooldown     = 0.0            # Giây còn lại trước lần bắn tiếp
-        self.shoot_flash  = 0.0            # Hiệu ứng sáng (giây)
-        self.angle        = 0.0            # Góc quay của nòng súng (degree)
-        self.total_kills  = 0              # Số quái đã hạ
-        self.total_damage = 0              # Tổng sát thương đã gây
+        self.target       = None
+        self.cooldown     = 0.0
+        self.shoot_flash  = 0.0
+        self.angle        = 0.0
+        self.total_kills  = 0
+        self.total_damage = 0
 
-        # Pixel tâm tháp
         self.px = GRID_OFFSET_X + col * CELL_SIZE + CELL_SIZE // 2
         self.py = GRID_OFFSET_Y + row * CELL_SIZE + CELL_SIZE // 2
 
-    # ════════════════════════════════════════════════════════════
-    #  UPDATE
-    # ════════════════════════════════════════════════════════════
 
     def update(self, dt, enemies, projectiles):
         """
@@ -75,22 +69,18 @@ class Tower:
             enemies     (list) : Danh sách enemy đang sống.
             projectiles (list) : Danh sách đạn (thêm vào đây khi bắn).
         """
-        # Giảm cooldown
         if self.cooldown > 0:
             self.cooldown -= dt
         if self.shoot_flash > 0:
             self.shoot_flash -= dt
 
-        # Tìm mục tiêu hợp lệ trong tầm
         self.target = self._find_target(enemies)
 
         if self.target:
-            # Cập nhật góc quay nòng về phía mục tiêu
             tx, ty = self.target.px, self.target.py
             dx, dy = tx - self.px, ty - self.py
             self.angle = math.degrees(math.atan2(dy, dx))
 
-            # Bắn nếu hết cooldown
             if self.cooldown <= 0:
                 self._shoot(projectiles)
                 self.cooldown = 1.0 / self.fire_rate
@@ -138,13 +128,9 @@ class Tower:
         self.shoot_flash = 0.12
         self.total_damage += self.damage
 
-    # ════════════════════════════════════════════════════════════
-    #  VẼ
-    # ════════════════════════════════════════════════════════════
 
     def draw(self, surface):
         """Vẽ tháp lên surface."""
-        # Mỗi loại tháp tự vẽ hình dạng đặc trưng
         self._draw_base(surface)
         self._draw_barrel(surface)
         self._draw_range_circle(surface)
@@ -154,12 +140,9 @@ class Tower:
     def _draw_base(self, surface):
         """Vẽ thân tháp – override ở subclass."""
         cx, cy = self.px, self.py
-        # Bóng đổ
         pygame.draw.circle(surface, (15, 18, 28), (cx+3, cy+3), 22)
-        # Thân chính
         pygame.draw.circle(surface, self.accent, (cx, cy), 24)
         pygame.draw.circle(surface, self.color,  (cx, cy), 20)
-        # Viền sáng
         pygame.draw.circle(surface, (min(self.color[0]+80, 255),
                                       min(self.color[1]+80, 255),
                                       min(self.color[2]+80, 255)),
@@ -207,9 +190,6 @@ class Tower:
                            (range_px, range_px), range_px, 2)
         surface.blit(alpha_surf, (self.px - range_px, self.py - range_px))
 
-    # ════════════════════════════════════════════════════════════
-    #  THÔNG TIN
-    # ════════════════════════════════════════════════════════════
 
     def get_info(self):
         """Trả về dict thông tin tháp."""
@@ -223,9 +203,6 @@ class Tower:
         }
 
 
-# ════════════════════════════════════════════════════════════════
-#  CÁC LOẠI THÁP CỤ THỂ
-# ════════════════════════════════════════════════════════════════
 
 class ArcherTower(Tower):
     """
@@ -240,19 +217,15 @@ class ArcherTower(Tower):
     def _draw_base(self, surface):
         cx, cy = self.px, self.py
 
-        # Bóng
         pygame.draw.circle(surface, (15, 35, 20), (cx+3, cy+3), 22)
 
-        # Thân tháp – hình lục giác xanh lá
         pts = self._hexagon(cx, cy, 22)
         pygame.draw.polygon(surface, self.accent, pts)
         pts2 = self._hexagon(cx, cy, 18)
         pygame.draw.polygon(surface, self.color, pts2)
 
-        # Vạch sáng
         pygame.draw.polygon(surface, (150, 255, 170), pts2, 2)
 
-        # Biểu tượng cung (mũi tên nhỏ)
         pygame.draw.line(surface, (80, 50, 20), (cx-8, cy-8), (cx+8, cy+8), 2)
         pygame.draw.line(surface, (80, 50, 20), (cx-8, cy+8), (cx+8, cy-8), 2)
 
@@ -269,9 +242,7 @@ class ArcherTower(Tower):
         length = 22
         bx = cx + length * math.cos(angle_rad)
         by = cy + length * math.sin(angle_rad)
-        # Thân mũi tên
         pygame.draw.line(surface, (140, 100, 40), (cx, cy), (bx, by), 3)
-        # Đầu mũi
         tip_angle = angle_rad
         for da in [-0.4, 0.4]:
             ex = bx - 8 * math.cos(tip_angle + da)
@@ -293,17 +264,14 @@ class CannonTower(Tower):
     def _draw_base(self, surface):
         cx, cy = self.px, self.py
 
-        # Bóng
         pygame.draw.rect(surface, (20, 20, 28),
                          pygame.Rect(cx-20, cy-20, 43, 43), border_radius=6)
 
-        # Thân vuông
         body = pygame.Rect(cx-19, cy-19, 38, 38)
         pygame.draw.rect(surface, self.accent, body, border_radius=6)
         inner = pygame.Rect(cx-15, cy-15, 30, 30)
         pygame.draw.rect(surface, self.color, inner, border_radius=4)
 
-        # Chi tiết ốc vít 4 góc
         for dx, dy in [(-10,-10),(10,-10),(-10,10),(10,10)]:
             pygame.draw.circle(surface, self.accent, (cx+dx, cy+dy), 3)
             pygame.draw.circle(surface, (200, 200, 210), (cx+dx, cy+dy), 3, 1)
@@ -314,13 +282,10 @@ class CannonTower(Tower):
         length = 26
         bx = cx + length * math.cos(angle_rad)
         by = cy + length * math.sin(angle_rad)
-        # Nòng pháo dày
         pygame.draw.line(surface, self.accent, (cx, cy), (bx, by), 10)
         pygame.draw.line(surface, self.color,  (cx, cy), (bx, by), 7)
-        # Đầu nòng
         pygame.draw.circle(surface, (100, 100, 115),
                            (int(bx), int(by)), 5)
-        # Khớp nòng
         pygame.draw.circle(surface, self.accent, (cx, cy), 10)
         pygame.draw.circle(surface, self.color,  (cx, cy), 7)
 
@@ -334,7 +299,7 @@ class MageTower(Tower):
 
     def __init__(self, row, col):
         super().__init__(row, col, 'mage')
-        self._orb_pulse = 0.0   # Hiệu ứng nhấp nháy quả cầu
+        self._orb_pulse = 0.0
 
     def update(self, dt, enemies, projectiles):
         self._orb_pulse = (self._orb_pulse + dt * 3) % (2 * math.pi)
@@ -343,27 +308,21 @@ class MageTower(Tower):
     def _draw_base(self, surface):
         cx, cy = self.px, self.py
 
-        # Bóng
         pts = self._diamond(cx, cy, 24)
         pygame.draw.polygon(surface, (20, 10, 35), [(p[0]+3, p[1]+3) for p in pts])
 
-        # Thân kim cương tím
         pygame.draw.polygon(surface, self.accent, self._diamond(cx, cy, 23))
         pygame.draw.polygon(surface, self.color,  self._diamond(cx, cy, 19))
 
-        # Viền phát sáng
         pulse = abs(math.sin(self._orb_pulse))
         glow_c = (int(180 + 75*pulse), int(80 + 50*pulse), 255)
         pygame.draw.polygon(surface, glow_c, self._diamond(cx, cy, 19), 2)
 
-        # Quả cầu phép thuật ở giữa
         orb_r = int(7 + 2 * pulse)
-        # Hào quang
         orb_surf = pygame.Surface((orb_r*4, orb_r*4), pygame.SRCALPHA)
         pygame.draw.circle(orb_surf, (200, 120, 255, 60),
                            (orb_r*2, orb_r*2), orb_r*2)
         surface.blit(orb_surf, (cx - orb_r*2, cy - orb_r*2))
-        # Nhân
         pygame.draw.circle(surface, (220, 150, 255), (cx, cy), orb_r)
         pygame.draw.circle(surface, (255, 200, 255), (cx, cy), orb_r, 1)
 
@@ -385,7 +344,6 @@ class MageTower(Tower):
         pulse = abs(math.sin(self._orb_pulse))
         glow_c = (int(160 + 60*pulse), int(80 + 40*pulse), 255)
 
-        # Luồng phép thuật
         for i in range(3):
             a = angle_rad + 0.3 * (i - 1)
             ex = cx + (length * 0.6) * math.cos(a)
@@ -395,9 +353,6 @@ class MageTower(Tower):
         pygame.draw.line(surface, (220, 150, 255), (cx, cy), (bx, by), 3)
 
 
-# ════════════════════════════════════════════════════════════════
-#  FACTORY
-# ════════════════════════════════════════════════════════════════
 
 def create_tower(tower_type, row, col):
     """

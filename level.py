@@ -12,9 +12,6 @@ Mỗi màn có:
 from settings import GRID_ROWS, GRID_COLS
 
 
-# ════════════════════════════════════════════════════════════════
-#  ĐỊNH NGHĨA CÁC MÀNTHI
-# ════════════════════════════════════════════════════════════════
 
 LEVELS = [
     {
@@ -24,14 +21,12 @@ LEVELS = [
         'difficulty': 'Vô hạn',
         'diff_color': (80, 210, 80),
 
-        # Mở rộng khoảng cách di chuyển: từ góc trên bên trái đến góc dưới bên phải
         'spawn':  (0, 0),
         'base':   (GRID_ROWS - 1, GRID_COLS - 1),
 
-        # Xóa các vật cản cản trở đường đi chính, chỉ để một ít ở góc làm cảnh
         'obstacles': [
-            (0, GRID_COLS - 1), # góc trên phải
-            (GRID_ROWS - 1, 0), # góc dưới trái
+            (0, GRID_COLS - 1),
+            (GRID_ROWS - 1, 0),
             (1, GRID_COLS - 1),
             (GRID_ROWS - 1, 1),
         ],
@@ -92,14 +87,13 @@ def validate_level(level_data):
     if spawn in obs or base in obs:
         return False, "Spawn/Base trùng vật cản"
 
-    # Thử BFS nhanh
     from bfs import has_path
     grid = [[0]*GRID_COLS for _ in range(GRID_ROWS)]
-    grid[sr][sc] = 2   # SPAWN
-    grid[br][bc] = 3   # BASE
+    grid[sr][sc] = 2
+    grid[br][bc] = 3
     for (r, c) in obs:
         if 0 <= r < GRID_ROWS and 0 <= c < GRID_COLS:
-            grid[r][c] = 4   # OBSTACLE
+            grid[r][c] = 4
 
     if not has_path(grid, spawn, base, GRID_ROWS, GRID_COLS):
         return False, "Vật cản chặn hết đường đi"

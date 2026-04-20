@@ -42,42 +42,31 @@ class MapEditor:
     def __init__(self, screen):
         self.screen    = screen
         self.draw_mode = 'obstacle'
-        self.is_drawing = False    # Đang giữ chuột
+        self.is_drawing = False
 
-        # Trạng thái bản đồ
         self.obstacles = set()
         self.spawn_pos = (5, 0)
         self.base_pos  = (5, 14)
 
-        # BFS path hiển thị
         self.bfs_path  = []
         self._recalc_bfs()
 
-        # Font
         self.font_sm = font_manager.get(13)
         self.font_md = font_manager.get(14, bold=True)
         self.font_lg = font_manager.get(20, bold=True)
 
-        # Thông báo
         self.message      = ""
         self.message_timer = 0.0
         self.message_color = C_WHITE
 
-        # Lịch sử undo (tối đa 20 bước)
         self._history: list[set] = []
 
-        # Tên file hiện tại
         self.current_file = ""
 
-        # Tabs lưu file
         self._map_files = self._scan_maps()
 
-        # Thư mục lưu
         os.makedirs(MAPS_DIR, exist_ok=True)
 
-    # ════════════════════════════════════════════════════════════
-    #  BFS
-    # ════════════════════════════════════════════════════════════
 
     def _recalc_bfs(self):
         """Tính lại đường BFS với cấu hình hiện tại."""
@@ -97,9 +86,6 @@ class MapEditor:
                 g[r][c] = CELL_OBSTACLE
         return g
 
-    # ════════════════════════════════════════════════════════════
-    #  HANDLE EVENTS
-    # ════════════════════════════════════════════════════════════
 
     def handle_event(self, event):
         """
@@ -120,7 +106,6 @@ class MapEditor:
                 self._save_history()
                 self._handle_click(*event.pos)
             elif event.button == 3:
-                # Chuột phải: xóa ô
                 pos = self._pixel_to_cell(*event.pos)
                 if pos:
                     self.obstacles.discard(pos)
@@ -168,13 +153,11 @@ class MapEditor:
         r, c = cell
 
         if self.draw_mode == 'obstacle':
-            # Toggle vật cản
             if cell == self.spawn_pos or cell == self.base_pos:
                 return
             if cell in self.obstacles:
                 self.obstacles.discard(cell)
             else:
-                # Kiểm tra tạm xem có chặn đường không
                 self.obstacles.add(cell)
                 if not has_path(self._build_grid_data(),
                                 self.spawn_pos, self.base_pos,
@@ -198,9 +181,6 @@ class MapEditor:
             self._recalc_bfs()
             self._show_msg(f"Base: {cell}", C_BASE_CLR)
 
-    # ════════════════════════════════════════════════════════════
-    #  UPDATE & DRAW
-    # ════════════════════════════════════════════════════════════
 
     def update(self, dt):
         if self.message_timer > 0:
@@ -210,13 +190,10 @@ class MapEditor:
         """Vẽ toàn bộ màn hình editor."""
         self.screen.fill(C_BG)
 
-        # Vẽ lưới
         self._draw_grid()
 
-        # Vẽ panel bên phải
         self._draw_panel()
 
-        # Vẽ thông báo
         if self.message and self.message_timer > 0:
             alpha = min(int(255 * self.message_timer / 2.0), 255)
             surf  = self.font_md.render(self.message, True, self.message_color)
@@ -254,7 +231,6 @@ class MapEditor:
                 pygame.draw.rect(self.screen, color, rect)
                 pygame.draw.rect(self.screen, C_GRID_LINE, rect, 1)
 
-                # Nhãn
                 if pos == self.spawn_pos:
                     lbl = self.font_sm.render("S", True, C_WHITE)
                     self.screen.blit(lbl, lbl.get_rect(center=rect.center))
@@ -262,7 +238,6 @@ class MapEditor:
                     lbl = self.font_sm.render("B", True, C_WHITE)
                     self.screen.blit(lbl, lbl.get_rect(center=rect.center))
 
-        # Hover
         mx, my = pygame.mouse.get_pos()
         cell   = self._pixel_to_cell(mx, my)
         if cell:
@@ -292,7 +267,6 @@ class MapEditor:
         txt("MAP EDITOR", C_GOLD, self.font_lg)
         y += 10
 
-        # Chế độ vẽ
         mode_colors = {'obstacle': C_GRAY, 'spawn': C_SPAWN_CLR, 'base': C_BASE_CLR}
         mode_names  = {'obstacle': 'Vật cản [1]', 'spawn': 'Spawn [2]', 'base': 'Base [3]'}
         txt("Chế độ:", C_WHITE, self.font_md)
@@ -336,9 +310,6 @@ class MapEditor:
             y += 10
             txt(f"  File: {os.path.basename(self.current_file)}", C_GRAY)
 
-    # ════════════════════════════════════════════════════════════
-    #  LƯU / TẢI
-    # ════════════════════════════════════════════════════════════
 
     def _save_map(self, filename=None):
         """Lưu bản đồ ra file JSON."""
@@ -368,7 +339,7 @@ class MapEditor:
             if not files:
                 self._show_msg("Không có file bản đồ!", C_RED)
                 return
-            filename = files[-1]  # Tải file mới nhất
+            filename = files[-1]
 
         try:
             with open(filename, 'r', encoding='utf-8') as f:
@@ -398,9 +369,6 @@ class MapEditor:
             'obstacles': list(self.obstacles),
         }
 
-    # ════════════════════════════════════════════════════════════
-    #  TIỆN ÍCH
-    # ════════════════════════════════════════════════════════════
 
     def _pixel_to_cell(self, mx, my):
         """Chuyển pixel sang ô lưới."""

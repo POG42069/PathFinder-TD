@@ -20,9 +20,6 @@ import font_manager
 from settings import *
 
 
-# ════════════════════════════════════════════════════════════════
-#  BỘ QUẢN LÝ GAME CHÍNH
-# ════════════════════════════════════════════════════════════════
 
 class App:
     """
@@ -42,9 +39,8 @@ class App:
     def __init__(self):
         pygame.init()
         pygame.display.set_caption(WINDOW_TITLE)
-        font_manager.init()   # Khởi tạo font hỗ trợ tiếng Việt
+        font_manager.init()
 
-        # Thử Full HD, fallback nếu màn không đủ to
         self.screen = pygame.display.set_mode(
             (WINDOW_WIDTH, WINDOW_HEIGHT),
             pygame.HWSURFACE | pygame.DOUBLEBUF
@@ -53,23 +49,17 @@ class App:
         self.state      = STATE_MENU
         self.running    = True
 
-        # Dữ liệu màn đang chơi
         self.current_level_id = 1
         self._level_data      = None
 
-        # Các object màn hình (lazy init)
         self._menu           = None
         self._level_select   = None
         self._game_session   = None
         self._map_editor     = None
         self._highscore      = None
 
-        # Khởi tạo màn hình đầu tiên
         self._init_menu()
 
-    # ════════════════════════════════════════════════════════════
-    #  KHỞI TẠO CÁC MÀN HÌNH
-    # ════════════════════════════════════════════════════════════
 
     def _init_menu(self):
         from ui import MenuScreen
@@ -103,28 +93,21 @@ class App:
         self._highscore = HighscoreScreen(self.screen)
         self.state = STATE_HIGHSCORE
 
-    # ════════════════════════════════════════════════════════════
-    #  VÒNG LẶP CHÍNH
-    # ════════════════════════════════════════════════════════════
 
     def run(self):
         """Vòng lặp game chính."""
         while self.running:
             dt = self.clock.tick(FPS) / 1000.0
-            # Giới hạn dt max để tránh physics bug khi lag
             dt = min(dt, 0.05)
 
-            # ── Xử lý sự kiện ──
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.running = False
                     break
                 self._dispatch_event(event)
 
-            # ── Update ──
             self._dispatch_update(dt)
 
-            # ── Draw ──
             self._dispatch_draw()
 
             pygame.display.flip()
@@ -132,9 +115,6 @@ class App:
         pygame.quit()
         sys.exit()
 
-    # ════════════════════════════════════════════════════════════
-    #  DISPATCH
-    # ════════════════════════════════════════════════════════════
 
     def _dispatch_event(self, event):
         """Chuyển event đến màn hình đang hoạt động."""
@@ -158,7 +138,6 @@ class App:
         elif s == STATE_PLAYING:
             gs = self._game_session
             if gs.result in ('game_over', 'victory'):
-                # Màn kết thúc
                 nav = gs.handle_end_event(event)
                 if nav == 'retry':
                     self._init_game(self.current_level_id)
@@ -226,9 +205,6 @@ class App:
             self._highscore.draw()
 
 
-# ════════════════════════════════════════════════════════════════
-#  ENTRY POINT
-# ════════════════════════════════════════════════════════════════
 
 if __name__ == '__main__':
     app = App()

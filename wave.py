@@ -26,20 +26,16 @@ class WaveManager:
     """
 
     def __init__(self):
-        self.wave_idx    = 0           # Wave hiện tại (0-based)
-        self.state       = 'idle'      # idle → spawning → waiting → idle...
-        self.enemies     = []          # Enemy đang sống
-        self.pending     = []          # Queue spawn: [(type, cumulative_time)]
-        self.spawn_timer = 0.0         # Thời gian chờ đến quái tiếp theo
-        self.break_timer = 0.0         # Thời gian nghỉ giữa wave
+        self.wave_idx    = 0
+        self.state       = 'idle'
+        self.enemies     = []
+        self.pending     = []
+        self.spawn_timer = 0.0
+        self.break_timer = 0.0
 
-        # Thống kê
         self.total_spawned  = 0
         self.total_killed   = 0
 
-    # ════════════════════════════════════════════════════════════
-    #  ĐIỀU KHIỂN WAVE
-    # ════════════════════════════════════════════════════════════
 
     @property
     def current_wave(self):
@@ -69,16 +65,14 @@ class WaveManager:
         wave_def  = WAVE_DEFINITIONS[self.wave_idx]
         path      = grid.get_path()
 
-        # Tính hệ số scale HP theo wave
         scale = 1.0 + self.wave_idx * 0.15
 
-        # Xây dựng hàng đợi spawn
         self.pending.clear()
         for enemy_type, count, delay in wave_def:
             for i in range(count):
                 self.pending.append((enemy_type, delay, scale))
 
-        self.spawn_timer = 0.5   # Dừng 0.5s trước khi bắt đầu spawn đợt này
+        self.spawn_timer = 0.5
         self.state       = 'spawning'
         self._current_path = list(path)
         return True
@@ -89,9 +83,6 @@ class WaveManager:
                 not self.is_done and
                 self.all_enemies_dead)
 
-    # ════════════════════════════════════════════════════════════
-    #  UPDATE
-    # ════════════════════════════════════════════════════════════
 
     def update(self, dt, grid, on_wave_complete=None):
         """
@@ -102,21 +93,17 @@ class WaveManager:
             grid             (Grid) : Để lấy path BFS mới nhất.
             on_wave_complete (func) : Callback khi wave hoàn thành.
         """
-        # Cập nhật tất cả enemy đang sống
         dead_indices = []
 
         for i, enemy in enumerate(self.enemies):
             enemy.update(dt)
 
-        # Xóa enemy đã chết khỏi danh sách
         self.enemies = [e for e in self.enemies if not e.dead]
 
-        # ── State machine ──
         if self.state == 'spawning':
             self._handle_spawning(dt, grid)
 
         elif self.state == 'waiting':
-            # Chờ tất cả quái bị hạ
             if self.all_enemies_dead:
                 self.wave_idx += 1
                 if self.is_done:
@@ -139,21 +126,15 @@ class WaveManager:
         if self.spawn_timer <= 0 and self.pending:
             enemy_type, delay, scale = self.pending.pop(0)
 
-            # Tạo enemy với đường BFS ngẫu nhiên (mỗi con 1 đường ngắn nhất khác nhau)
             enemy = create_enemy(enemy_type, grid.get_random_path(), scale)
             self.enemies.append(enemy)
             self.total_spawned += 1
 
-            # Đặt timer cho quái tiếp theo
             if self.pending:
                 self.spawn_timer = delay
             else:
-                # Hết quái cần spawn, chuyển sang waiting
                 self.state = 'waiting'
 
-    # ════════════════════════════════════════════════════════════
-    #  THÔNG TIN
-    # ════════════════════════════════════════════════════════════
 
     def get_enemies_remaining(self):
         """Số quái còn lại (sống + chưa spawn)."""

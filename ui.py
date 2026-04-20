@@ -21,9 +21,6 @@ from settings import *
 from tower import draw_tower_preview
 
 
-# ════════════════════════════════════════════════════════════════
-#  LỚP BUTTON CƠ BẢN
-# ════════════════════════════════════════════════════════════════
 
 class Button:
     """Nút bấm có hover và click animation."""
@@ -40,7 +37,7 @@ class Button:
 
         self.hovered  = False
         self.pressed  = False
-        self._anim    = 0.0    # 0..1 hover animation
+        self._anim    = 0.0
 
     def update(self, dt):
         mx, my = pygame.mouse.get_pos()
@@ -55,13 +52,11 @@ class Button:
 
     def draw(self, surface):
         t = self._anim
-        # Màu nền thay đổi khi hover
         r = int(self.base_color[0] + (60*t))
         g = int(self.base_color[1] + (40*t))
         b = int(self.base_color[2] + (30*t))
         clr = (min(r,255), min(g,255), min(b,255))
 
-        # Scale nhẹ khi hover
         scale  = 1.0 + 0.02 * t
         w      = int(self.rect.width  * scale)
         h      = int(self.rect.height * scale)
@@ -69,31 +64,23 @@ class Button:
         y      = self.rect.centery - h // 2
         drawn  = pygame.Rect(x, y, w, h)
 
-        # Bóng
         shadow = pygame.Rect(drawn.x+3, drawn.y+4, drawn.width, drawn.height)
         pygame.draw.rect(surface, (10,10,20), shadow, border_radius=self.border_radius)
 
-        # Thân nút
         pygame.draw.rect(surface, clr, drawn, border_radius=self.border_radius)
 
-        # Viền sáng trên
         highlight_surf = pygame.Surface((drawn.width, 4), pygame.SRCALPHA)
         highlight_surf.fill((255,255,255,40))
         surface.blit(highlight_surf, (drawn.x, drawn.y+self.border_radius//2))
 
-        # Viền
         border_c = (min(clr[0]+50,255), min(clr[1]+50,255), min(clr[2]+50,255))
         pygame.draw.rect(surface, border_c, drawn, 2,
                          border_radius=self.border_radius)
 
-        # Text
         txt = self.font.render(self.text, True, self.text_color)
         surface.blit(txt, txt.get_rect(center=drawn.center))
 
 
-# ════════════════════════════════════════════════════════════════
-#  PARTICLE NỀN MENU (TINH TÚ BAY)
-# ════════════════════════════════════════════════════════════════
 
 class MenuStar:
     def __init__(self, w, h):
@@ -117,9 +104,6 @@ class MenuStar:
         surface.blit(s, (int(self.x)-int(self.r), int(self.y)-int(self.r)))
 
 
-# ════════════════════════════════════════════════════════════════
-#  MENU CHÍNH
-# ════════════════════════════════════════════════════════════════
 
 class MenuScreen:
     def __init__(self, screen):
@@ -143,10 +127,8 @@ class MenuScreen:
         self.buttons = [self.btn_play, self.btn_highscore,
                         self.btn_editor, self.btn_quit]
 
-        # Stars
         self.stars = [MenuStar(W, H) for _ in range(120)]
 
-        # Animation
         self._time = 0.0
 
     def update(self, dt):
@@ -165,7 +147,6 @@ class MenuScreen:
 
     def draw(self):
         W, H = WINDOW_WIDTH, WINDOW_HEIGHT
-        # Gradient nền
         for y in range(H):
             ratio = y / H
             r = int(10 + 20*ratio)
@@ -173,46 +154,35 @@ class MenuScreen:
             b = int(30 + 50*ratio)
             pygame.draw.line(self.screen, (r,g,b), (0,y), (W,y))
 
-        # Stars
         for s in self.stars:
             s.draw(self.screen)
 
-        # Tiêu đề
         t = self._time
         glow = abs(math.sin(t * 1.5))
 
-        # Shadow tiêu đề
         shadow = self.font_title.render("PathFinder TD", True, (20, 40, 80))
         self.screen.blit(shadow, shadow.get_rect(center=(W//2+3, 183)))
 
-        # Title chính với gradient effect
         clr = (int(120+80*glow), int(180+60*glow), 255)
         title = self.font_title.render("PathFinder TD", True, clr)
         self.screen.blit(title, title.get_rect(center=(W//2, 180)))
 
-        # Subtitle
         sub = self.font_sub.render("BFS Tower Defense - IT003 UIT", True,
                                     (140, 170, 220))
         self.screen.blit(sub, sub.get_rect(center=(W//2, 235)))
 
-        # Đường phân cách
         pygame.draw.line(self.screen, (60, 100, 160),
                          (W//2-150, 265), (W//2+150, 265), 2)
 
-        # Buttons
         for b in self.buttons:
             b.draw(self.screen)
 
-        # Footer
         foot = self.font_sm.render("Nguyễn Minh Khang – MSSV: 25520793", True,
                                     (80, 100, 130))
         self.screen.blit(foot, foot.get_rect(
             center=(W//2, H-25)))
 
 
-# ════════════════════════════════════════════════════════════════
-#  MÀN CHỌN LEVEL
-# ════════════════════════════════════════════════════════════════
 
 class LevelSelectScreen:
     def __init__(self, screen):
@@ -264,7 +234,6 @@ class LevelSelectScreen:
 
     def draw(self):
         W, H = WINDOW_WIDTH, WINDOW_HEIGHT
-        # Nền
         for y in range(H):
             ratio = y / H
             r = int(8 + 15*ratio)
@@ -272,11 +241,9 @@ class LevelSelectScreen:
             b = int(25 + 40*ratio)
             pygame.draw.line(self.screen, (r,g,b), (0,y), (W,y))
 
-        # Tiêu đề
         title = self.font_lg.render("Chọn Màn Chơi", True, (180, 210, 255))
         self.screen.blit(title, title.get_rect(center=(W//2, 80)))
 
-        # Cards
         for card in self.cards:
             self._draw_card(card)
 
@@ -287,23 +254,19 @@ class LevelSelectScreen:
         rect = card['rect']
         hovs = card['hovered'] and card['unlocked']
 
-        # Bóng
         shadow = pygame.Rect(rect.x+4, rect.y+5, rect.width, rect.height)
         pygame.draw.rect(self.screen, (5,5,15), shadow, border_radius=16)
 
-        # Nền card
         if card['unlocked']:
             base_c = (25, 35, 60) if not hovs else (35, 50, 90)
         else:
             base_c = (20, 20, 30)
         pygame.draw.rect(self.screen, base_c, rect, border_radius=16)
 
-        # Viền màu chủ đề
         border_c = lv['diff_color'] if card['unlocked'] else C_DARK_GRAY
         pygame.draw.rect(self.screen, border_c, rect, 2, border_radius=16)
 
         if not card['unlocked']:
-            # Màn bị khóa
             lock = self.font_lg.render("[LOCKED]", True, C_DARK_GRAY)
             self.screen.blit(lock, lock.get_rect(center=(rect.centerx, rect.centery-15)))
             lbl = self.font_sm.render("Hoan thanh man truoc de mo", True, C_GRAY)
@@ -312,32 +275,24 @@ class LevelSelectScreen:
 
         x, y = rect.x + 15, rect.y + 15
 
-        # Số màn
         num = self.font_lg.render(f"Màn {lv['id']}", True, (200, 220, 255))
         self.screen.blit(num, (x, y))
 
-        # Tên màn
         name = self.font_md.render(lv['name'], True, lv['diff_color'])
         self.screen.blit(name, (x, y + 40))
 
-        # Độ khó
         diff = self.font_sm.render(f"Độ khó: {lv['difficulty']}", True, lv['diff_color'])
         self.screen.blit(diff, (x, y + 68))
 
-        # Mô tả
         for i, line in enumerate(lv['desc'].split('\n')):
             d = self.font_sm.render(line, True, C_GRAY)
             self.screen.blit(d, (x, y + 95 + i*20))
 
-        # Điểm cao nhất
         if card['best'] > 0:
             best = self.font_sm.render(f"Điểm cao: {card['best']:,}", True, C_GOLD)
             self.screen.blit(best, (x, rect.bottom - 30))
 
 
-# ════════════════════════════════════════════════════════════════
-#  HUD (THANH THÔNG TIN TRONG GAME)
-# ════════════════════════════════════════════════════════════════
 
 class HUD:
     def __init__(self, screen):
@@ -350,24 +305,19 @@ class HUD:
              break_timer=0.0, speed=1):
         W = WINDOW_WIDTH
 
-        # Nền HUD
         pygame.draw.rect(self.screen, C_HUD_BG,
                          pygame.Rect(0, 0, W, HUD_HEIGHT))
         pygame.draw.line(self.screen, C_PANEL_BORDER,
                          (0, HUD_HEIGHT-1), (W, HUD_HEIGHT-1), 2)
 
-        # ── HP ──
         hp_ratio = hp / max(max_hp, 1)
         hp_color = (C_HP_FULL if hp_ratio > 0.6 else
                     C_HP_MED  if hp_ratio > 0.3 else C_HP_LOW)
 
-        # Icon tim
         self._draw_heart(self.screen, 28, HUD_HEIGHT//2 - 2)
-        # Text
         hp_txt = self.font_lg.render(f"{hp} / {max_hp}", True, hp_color)
         self.screen.blit(hp_txt, (50, HUD_HEIGHT//2 - hp_txt.get_height()//2))
 
-        # Bar HP
         bar_x, bar_y = 160, HUD_HEIGHT//2 - 6
         bar_w, bar_h = 120, 12
         pygame.draw.rect(self.screen, (40,40,50),
@@ -379,17 +329,14 @@ class HUD:
                              pygame.Rect(bar_x, bar_y, fill, bar_h),
                              border_radius=3)
 
-        # ── VÀNG ──
         gold_txt = self.font_lg.render(f"Gold: {gold}", True, C_GOLD)
         self.screen.blit(gold_txt,
                          (310, HUD_HEIGHT//2 - gold_txt.get_height()//2))
 
-        # ── ĐIỂM ──
         score_txt = self.font_md.render(f"Điểm: {score:,}", True, (200, 220, 255))
         self.screen.blit(score_txt,
                          (W//2 - 60, HUD_HEIGHT//2 - score_txt.get_height()//2))
 
-        # ── WAVE ──
         if break_timer > 1.0:
             wave_str = f"Wave {wave_idx+1} trong: {break_timer:.1f}s"
             wc = C_GOLD
@@ -400,13 +347,11 @@ class HUD:
         self.screen.blit(wave_txt,
                          (W - 300, HUD_HEIGHT//2 - wave_txt.get_height()//2))
 
-        # Tốc độ
         sp_txt = self.font_sm.render(f"x{speed}", True, C_GRAY)
         self.screen.blit(sp_txt, (W - 50, HUD_HEIGHT//2 - sp_txt.get_height()//2))
 
     def _draw_heart(self, surface, cx, cy):
         """Vẽ trái tim đơn giản."""
-        # Dùng polygon hình tim
         pts = []
         for i in range(30):
             t = math.radians(i * 12)
@@ -418,9 +363,6 @@ class HUD:
         pygame.draw.polygon(surface, (255, 120, 140), pts, 1)
 
 
-# ════════════════════════════════════════════════════════════════
-#  PANEL BÊN PHẢI (CHỌN THÁP)
-# ════════════════════════════════════════════════════════════════
 
 class TowerPanel:
     """
@@ -431,14 +373,13 @@ class TowerPanel:
 
     def __init__(self, screen):
         self.screen        = screen
-        self.selected_type = None    # Loại tháp đang được chọn
-        self.selected_tower= None    # Tháp đang được click trên lưới
+        self.selected_type = None
+        self.selected_tower= None
 
         self.font_lg = font_manager.get(17, bold=True)
         self.font_md = font_manager.get(14, bold=True)
         self.font_sm = font_manager.get(12)
 
-        # Vị trí các card tháp
         self._card_rects = {}
         self._build_cards()
 
@@ -492,11 +433,9 @@ class TowerPanel:
         if event.type != pygame.MOUSEBUTTONDOWN or event.button != 1:
             return None
 
-        # Nút wave
         if self.wave_btn.is_clicked(event):
             return ('wave',)
 
-        # Cards tháp
         for ttype, rect in self._card_rects.items():
             if rect.collidepoint(event.pos):
                 data = TOWER_DATA[ttype]
@@ -508,11 +447,9 @@ class TowerPanel:
                     self.selected_tower = None
                     return ('select', ttype)
 
-        # Nút bán
         if self.selected_tower and self.btn_sell.is_clicked(event):
             return ('sell',)
 
-        # Nút hủy
         if self.selected_type and self.btn_cancel.is_clicked(event):
             self.selected_type = None
             return ('cancel',)
@@ -520,29 +457,24 @@ class TowerPanel:
         return None
 
     def draw(self, gold, wave_manager):
-        # Nền panel
         panel = pygame.Rect(PANEL_X, HUD_HEIGHT, PANEL_WIDTH,
                             WINDOW_HEIGHT - HUD_HEIGHT)
         pygame.draw.rect(self.screen, C_PANEL_BG, panel)
         pygame.draw.line(self.screen, C_PANEL_BORDER,
                          (PANEL_X, HUD_HEIGHT), (PANEL_X, WINDOW_HEIGHT), 2)
 
-        # Nút wave
         state = wave_manager.state if wave_manager else 'idle'
         if state == 'idle' and not (wave_manager and wave_manager.is_done):
             self.wave_btn.draw(self.screen)
 
-        # Tiêu đề
         lbl = self.font_lg.render("=== THÁP ===", True, (180, 200, 240))
         self.screen.blit(lbl,
                          lbl.get_rect(center=(PANEL_X + PANEL_WIDTH//2,
                                               HUD_HEIGHT + 55)))
 
-        # Cards
         for ttype in TOWER_TYPES:
             self._draw_tower_card(ttype, gold)
 
-        # Info tháp đang chọn trên lưới
         if self.selected_tower:
             self._draw_tower_info(self.selected_tower)
             self.btn_sell.draw(self.screen)
@@ -558,7 +490,6 @@ class TowerPanel:
         mx, my = pygame.mouse.get_pos()
         hov    = rect.collidepoint(mx, my)
 
-        # Nền card
         if sel:
             bg = (40, 60, 100)
         elif hov and can:
@@ -569,20 +500,16 @@ class TowerPanel:
             bg = (22, 28, 45)
         pygame.draw.rect(self.screen, bg, rect, border_radius=10)
 
-        # Viền
         border = data['color'] if (sel or (hov and can)) else (40,50,70)
         pygame.draw.rect(self.screen, border, rect, 2, border_radius=10)
 
-        # Preview tháp
         draw_tower_preview(self.screen, ttype,
                            rect.x + 38, rect.centery)
 
-        # Tên
         txt = self.font_md.render(data['name'], True,
                                    data['color'] if can else C_DARK_GRAY)
         self.screen.blit(txt, (rect.x + 72, rect.y + 10))
 
-        # Stats
         stats = [
             (f"DMG: {data['damage']}",   (220, 100, 100)),
             (f"Tầm: {data['range']}",    (100, 180, 220)),
@@ -592,13 +519,11 @@ class TowerPanel:
             surf = self.font_sm.render(s, True, c if can else C_DARK_GRAY)
             self.screen.blit(surf, (rect.x + 72, rect.y + 35 + i*22))
 
-        # Giá
         cost_c = C_GOLD if can else C_RED
         cost   = self.font_md.render(f"{data['cost']}g", True, cost_c)
         self.screen.blit(cost, (rect.right - cost.get_width() - 10,
                                  rect.bottom - cost.get_height() - 8))
 
-        # Tag "Không đủ tiền"
         if not can:
             no = self.font_sm.render("Không đủ vàng", True, C_RED)
             self.screen.blit(no, (rect.x + 72, rect.bottom - 22))
@@ -633,9 +558,6 @@ class TowerPanel:
             self.screen.blit(surf, (x, y + 50 + i*22))
 
 
-# ════════════════════════════════════════════════════════════════
-#  PAUSE OVERLAY
-# ════════════════════════════════════════════════════════════════
 
 class PauseOverlay:
     def __init__(self, screen):
@@ -675,9 +597,6 @@ class PauseOverlay:
             b.draw(self.screen)
 
 
-# ════════════════════════════════════════════════════════════════
-#  GAME OVER
-# ════════════════════════════════════════════════════════════════
 
 class GameOverScreen:
     def __init__(self, screen):
@@ -714,7 +633,6 @@ class GameOverScreen:
         overlay.fill((0, 0, 0, 200))
         self.screen.blit(overlay, (0, 0))
 
-        # Pulsing red title
         glow = abs(math.sin(self._time * 2))
         clr  = (int(200+55*glow), int(40*glow), int(40*glow))
         txt  = self.font_lg.render("THẤT BẠI", True, clr)
@@ -739,9 +657,6 @@ class GameOverScreen:
             b.draw(self.screen)
 
 
-# ════════════════════════════════════════════════════════════════
-#  VICTORY SCREEN
-# ════════════════════════════════════════════════════════════════
 
 class VictoryScreen:
     def __init__(self, screen):
@@ -760,7 +675,6 @@ class VictoryScreen:
         self.score_data= None
         self.rank      = None
         self.has_next  = True
-        # Fireworks particles
         self._particles = []
         self._fw_timer  = 0.0
 
@@ -812,11 +726,9 @@ class VictoryScreen:
         overlay.fill((0, 0, 0, 195))
         self.screen.blit(overlay, (0, 0))
 
-        # Bắn pháo hoa
         for p in self._particles:
             p.draw(self.screen)
 
-        # Title nhấp nháy vàng
         glow = abs(math.sin(self._time * 2))
         clr  = (int(200+55*glow), int(180+60*glow), int(40*glow))
         txt  = self.font_lg.render("CHIẾN THẮNG!", True, clr)
@@ -843,9 +755,6 @@ class VictoryScreen:
             b.draw(self.screen)
 
 
-# ════════════════════════════════════════════════════════════════
-#  BẢNG ĐIỂM CAO
-# ════════════════════════════════════════════════════════════════
 
 class HighscoreScreen:
     def __init__(self, screen):
@@ -886,7 +795,6 @@ class HighscoreScreen:
         title = self.font_lg.render("Bảng Điểm Cao", True, C_GOLD)
         self.screen.blit(title, title.get_rect(center=(W//2, 55)))
 
-        # Tabs
         for i, b in enumerate(self.tab_btns):
             if self.selected_level == i+1:
                 b.base_color = (80, 110, 180)
@@ -894,7 +802,6 @@ class HighscoreScreen:
                 b.base_color = (40, 50, 90)
             b.draw(self.screen)
 
-        # Bảng điểm
         scores = get_highscores(self.selected_level)
         y_start = 170
 

@@ -14,9 +14,6 @@ Mô tả:
 """
 
 
-# ════════════════════════════════════════════════════════════════════
-#  CẤU TRÚC DỮ LIỆU: QUEUE (HÀNG ĐỢI)
-# ════════════════════════════════════════════════════════════════════
 
 class Queue:
     """
@@ -39,9 +36,8 @@ class Queue:
 
     def __init__(self):
         """Khởi tạo hàng đợi rỗng."""
-        self._data = []   # Danh sách nội bộ lưu phần tử
+        self._data = []
 
-    # ── Thao tác cơ bản ──────────────────────────────────────────
 
     def enqueue(self, item):
         """
@@ -106,9 +102,6 @@ class Queue:
         return f"Queue({self._data})"
 
 
-# ════════════════════════════════════════════════════════════════════
-#  THUẬT TOÁN: BFS – TÌM ĐƯỜNG NGẮN NHẤT TRÊN LƯỚI 2D
-# ════════════════════════════════════════════════════════════════════
 
 def bfs(grid_data, start, end, rows, cols):
     """
@@ -159,49 +152,37 @@ def bfs(grid_data, start, end, rows, cols):
         [(0,0), (1,0), (2,0), (2,1), (2,2)]
     """
 
-    # Trường hợp đặc biệt: xuất phát = đích
     if start == end:
         return [start]
 
-    # Các hướng di chuyển hợp lệ: lên, xuống, trái, phải
-    # (BFS trên lưới 4 chiều, không đi chéo)
     DIRECTIONS = [
-        (-1,  0),   # Lên
-        ( 1,  0),   # Xuống
-        ( 0, -1),   # Trái
-        ( 0,  1),   # Phải
+        (-1,  0),
+        ( 1,  0),
+        ( 0, -1),
+        ( 0,  1),
     ]
 
-    # ── Khởi tạo ────────────────────────────────────────────────
 
-    # Hàng đợi BFS – FIFO, dùng Queue tự implement
     queue = Queue()
     queue.enqueue(start)
 
-    # Tập hợp các ô đã thăm (dùng set để kiểm tra O(1))
     visited = set()
     visited.add(start)
 
-    # Từ điển lưu ô cha: parent[current] = previous_cell
-    # Dùng để truy vết lại đường đi sau khi BFS hoàn thành
     parent = {start: None}
 
-    # ── Vòng lặp BFS chính ──────────────────────────────────────
 
     while not queue.is_empty():
 
-        # Lấy ô hiện tại từ đầu hàng đợi
         current = queue.dequeue()
 
-        # ── Kiểm tra đã đến đích? ──
         if current == end:
-            # Truy vết ngược từ `end` về `start` qua dict `parent`
             path = []
             node = end
             while node is not None:
                 path.append(node)
                 node = parent[node]
-            path.reverse()   # Đảo chiều: start → ... → end
+            path.reverse()
             return path
 
         row, col = current
@@ -209,17 +190,13 @@ def bfs(grid_data, start, end, rows, cols):
         import random
         dirs = list(DIRECTIONS)
         random.shuffle(dirs)
-        
-        # ── Duyệt 4 ô lân cận ──
+
         for dr, dc in dirs:
             nr, nc = row + dr, col + dc
             neighbor = (nr, nc)
 
-            # Điều kiện để thêm vào hàng đợi:
             in_bounds  = 0 <= nr < rows and 0 <= nc < cols
             not_visited = neighbor not in visited
-            # Ô hợp lệ nếu: EMPTY(0) hoặc SPAWN(2) hoặc BASE(3)
-            # Không đi vào BLOCKED(1) hoặc OBSTACLE(4)
             cell_val = grid_data[nr][nc] if in_bounds else -1
             passable  = cell_val in (0, 2, 3)
 
@@ -228,13 +205,9 @@ def bfs(grid_data, start, end, rows, cols):
                 parent[neighbor] = current
                 queue.enqueue(neighbor)
 
-    # Hàng đợi rỗng, không tìm thấy đường đi
     return []
 
 
-# ════════════════════════════════════════════════════════════════════
-#  HÀM TIỆN ÍCH
-# ════════════════════════════════════════════════════════════════════
 
 def has_path(grid_data, start, end, rows, cols):
     """

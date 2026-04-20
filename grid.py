@@ -40,39 +40,27 @@ class Grid:
         self.spawn = spawn_pos
         self.base  = base_pos
 
-        # ── Ma trận trạng thái ──────────────────────────────────
-        # Khởi tạo toàn bộ là EMPTY
         self.cells = [[CELL_EMPTY] * cols for _ in range(rows)]
 
-        # Đặt điểm spawn và base
         r, c = spawn_pos
         self.cells[r][c] = CELL_SPAWN
         r, c = base_pos
         self.cells[r][c] = CELL_BASE
 
-        # Đặt các vật cản cố định
         if obstacles:
             for (or_, oc) in obstacles:
                 self.cells[or_][oc] = CELL_OBSTACLE
 
-        # ── Đường đi hiện tại (do BFS tính) ────────────────────
         self.path = []
         self._recalculate_path()
 
-        # ── Tháp đã xây ─────────────────────────────────────────
-        # Dict: (row, col) → tower object
         self.towers = {}
 
-        # ── Sprite / Surface vẽ ─────────────────────────────────
-        self._tile_surf = None          # cache surface bản đồ tĩnh
+        self._tile_surf = None
 
-        # Hiệu ứng highlight
-        self.hover_cell  = None         # Ô đang hover
-        self.selected_type = None       # Loại tháp đang chọn để xây
+        self.hover_cell  = None
+        self.selected_type = None
 
-    # ════════════════════════════════════════════════════════════
-    #  PATHFINDING (BFS)
-    # ════════════════════════════════════════════════════════════
 
     def _recalculate_path(self):
         """
@@ -97,9 +85,6 @@ class Grid:
         """Kiểm tra có đường đi hợp lệ không."""
         return len(self.path) > 1
 
-    # ════════════════════════════════════════════════════════════
-    #  QUẢN LÝ THÁP
-    # ════════════════════════════════════════════════════════════
 
     def can_build(self, row, col):
         """
@@ -113,18 +98,14 @@ class Grid:
         Trả về:
             bool: True nếu hợp lệ.
         """
-        # Kiểm tra giới hạn
         if not (0 <= row < self.rows and 0 <= col < self.cols):
             return False
-        # Kiểm tra ô trống
         if self.cells[row][col] != CELL_EMPTY:
             return False
 
-        # Thử đặt tháp tạm → chạy BFS xem đường đi còn không
         self.cells[row][col] = CELL_BLOCKED
         path_exists = has_path(self.cells, self.spawn, self.base,
                                self.rows, self.cols)
-        # Hoàn tác tạm
         self.cells[row][col] = CELL_EMPTY
 
         return path_exists
@@ -165,9 +146,6 @@ class Grid:
         """Trả về danh sách tất cả tower objects."""
         return list(self.towers.values())
 
-    # ════════════════════════════════════════════════════════════
-    #  CHUYỂN ĐỔI TỌA ĐỘ
-    # ════════════════════════════════════════════════════════════
 
     def cell_to_pixel(self, row, col):
         """
@@ -198,9 +176,6 @@ class Grid:
             return row, col
         return None
 
-    # ════════════════════════════════════════════════════════════
-    #  VẼ
-    # ════════════════════════════════════════════════════════════
 
     def draw(self, surface, show_path=True):
         """
@@ -219,7 +194,6 @@ class Grid:
                 state = self.cells[row][col]
                 pos   = (row, col)
 
-                # ── Màu nền ô ──
                 if state == CELL_OBSTACLE:
                     color = C_OBSTACLE
                 elif state == CELL_SPAWN:
@@ -227,7 +201,6 @@ class Grid:
                 elif state == CELL_BASE:
                     color = (30, 80, 180)
                 elif state == CELL_BLOCKED:
-                    # Ô có tháp – vẽ nền tối (tháp tự vẽ ở trên)
                     color = (25, 30, 45)
 
                 elif (row + col) % 2 == 0:
@@ -237,10 +210,8 @@ class Grid:
 
                 pygame.draw.rect(surface, color, rect)
 
-                # ── Kẻ lưới ──
                 pygame.draw.rect(surface, C_GRID_LINE, rect, 1)
 
-                # ── Nhãn spawn / base ──
                 if state == CELL_SPAWN:
                     self._draw_spawn(surface, rect)
                 elif state == CELL_BASE:
@@ -248,7 +219,6 @@ class Grid:
                 elif state == CELL_OBSTACLE:
                     self._draw_obstacle(surface, rect)
 
-        # ── Hover highlight khi người dùng đang chọn xây ──
         if self.hover_cell and self.selected_type:
             hr, hc = self.hover_cell
             hx, hy = self.cell_to_pixel(hr, hc)
@@ -264,13 +234,11 @@ class Grid:
             clr = C_GREEN if valid else C_RED
             pygame.draw.rect(surface, clr, hrect, 2)
 
-    # ── Vẽ điểm spawn ────────────────────────────────────────────
 
     def _draw_spawn(self, surface, rect):
         cx, cy = rect.centerx, rect.centery
         r = CELL_SIZE // 2 - 6
 
-        # Vòng tròn đỏ phát sáng
         for i in range(4, 0, -1):
             alpha_surf = pygame.Surface((CELL_SIZE, CELL_SIZE), pygame.SRCALPHA)
             pygame.draw.circle(alpha_surf, (255, 80, 80, 40 * i),
@@ -280,24 +248,20 @@ class Grid:
         pygame.draw.circle(surface, (255, 100, 100), (cx, cy), r)
         pygame.draw.circle(surface, (255, 200, 200), (cx, cy), r, 2)
 
-        # Dấu "S"
         font = font_manager.get(18, bold=True)
         txt  = font.render("S", True, (255, 255, 255))
         surface.blit(txt, txt.get_rect(center=(cx, cy)))
 
-    # ── Vẽ căn cứ ────────────────────────────────────────────────
 
     def _draw_base(self, surface, rect):
         cx, cy = rect.centerx, rect.centery
 
-        # Vòng sáng xanh
         for i in range(4, 0, -1):
             alpha_surf = pygame.Surface((CELL_SIZE, CELL_SIZE), pygame.SRCALPHA)
             pygame.draw.circle(alpha_surf, (60, 130, 255, 35 * i),
                                (CELL_SIZE//2, CELL_SIZE//2), 24 + i*3)
             surface.blit(alpha_surf, rect.topleft)
 
-        # Ngôi sao / biểu tượng căn cứ
         self._draw_star(surface, cx, cy, 20, 10, 5,
                         (80, 160, 255), (180, 210, 255))
         font = pygame.font.SysFont('Arial', 11, bold=True)
@@ -317,22 +281,17 @@ class Grid:
         pygame.draw.polygon(surface, color_fill, pts)
         pygame.draw.polygon(surface, color_border, pts, 2)
 
-    # ── Vẽ vật cản ───────────────────────────────────────────────
 
     def _draw_obstacle(self, surface, rect):
         """Vẽ khối đá/vật cản với hiệu ứng 3D đơn giản."""
         x, y = rect.x + 4, rect.y + 4
         w, h = CELL_SIZE - 8, CELL_SIZE - 8
 
-        # Bóng
         pygame.draw.rect(surface, (30, 30, 38),
                          pygame.Rect(x+3, y+3, w, h), border_radius=6)
-        # Khối đá
         pygame.draw.rect(surface, (75, 78, 90),
                          pygame.Rect(x, y, w, h), border_radius=6)
-        # Viền sáng
         pygame.draw.rect(surface, (110, 115, 130),
                          pygame.Rect(x, y, w, h), 2, border_radius=6)
-        # Điểm highlight góc
         pygame.draw.rect(surface, (130, 135, 150),
                          pygame.Rect(x+4, y+4, w//3, 4), border_radius=2)
