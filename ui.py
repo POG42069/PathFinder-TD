@@ -17,6 +17,7 @@ import pygame
 import math
 import random
 import font_manager
+import sound_manager
 from settings import *
 from tower import draw_tower_preview
 
@@ -47,7 +48,9 @@ class Button:
 
     def is_clicked(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-            return self.rect.collidepoint(event.pos)
+            if self.rect.collidepoint(event.pos):
+                sound_manager.play_button_click()
+                return True
         return False
 
     def draw(self, surface):

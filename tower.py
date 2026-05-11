@@ -6,6 +6,7 @@ Môn: IT003 - Cấu trúc dữ liệu và Giải thuật - UIT
 import pygame
 import math
 from settings import *
+import sound_manager
 
 
 class Tower:
@@ -127,6 +128,7 @@ class Tower:
         projectiles.append(proj)
         self.shoot_flash = 0.12
         self.total_damage += self.damage
+        sound_manager.play_shoot(self.tower_type)
 
 
     def draw(self, surface):

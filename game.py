@@ -14,6 +14,7 @@ from particle import (update_particles, draw_particles,
                       spawn_base_hit_particles, spawn_gold_text)
 from ui import HUD, TowerPanel, PauseOverlay
 import save_manager
+import sound_manager
 
 
 class GameSession:
@@ -169,6 +170,7 @@ class GameSession:
 
         if self.gold < cost:
             self._notify_msg("Không đủ vàng!", C_RED)
+            sound_manager.play_no_gold()
             return
 
         tower = create_tower(ttype, row, col)
@@ -179,6 +181,7 @@ class GameSession:
             for enemy in self.wave_mgr.enemies:
                 enemy.update_path_from_current(self.grid)
             self._notify_msg(f"Đã xây {data['name']}", data['color'])
+            sound_manager.play_build()
         else:
             self._notify_msg("Không thể xây ở đây!", C_RED)
 
@@ -193,12 +196,14 @@ class GameSession:
             for enemy in self.wave_mgr.enemies:
                 enemy.update_path_from_current(self.grid)
             self._notify_msg(f"Bán được {removed.sell_value}g", C_GOLD)
+            sound_manager.play_sell()
         self.selected_tower_obj         = None
         self.tower_panel.selected_tower = None
 
     def _start_wave(self):
         if self.wave_mgr.can_start_wave():
             self.wave_mgr.start_next_wave(self.grid)
+            sound_manager.play_wave_start()
 
 
     def update(self, dt):
@@ -232,6 +237,7 @@ class GameSession:
             bx, by = self.grid.cell_center_pixel(*self.grid.base)
             spawn_base_hit_particles(self.particles, bx, by)
             self._notify_msg(f"-{enemy.base_damage} HP!", C_RED, 0.8)
+            sound_manager.play_base_hit()
             if self.hp <= 0:
                 self.hp = 0
                 self._end_game(victory=False)
@@ -272,6 +278,7 @@ class GameSession:
             self._notify_msg(
                 f"Wave {completed_wave_idx} hoàn thành! +{WAVE_BONUS_SCORE} điểm",
                 C_GOLD, 2.5)
+            sound_manager.play_wave_complete()
 
     def _end_game(self, victory):
         """Kết thúc game: lưu điểm, đặt result."""
@@ -289,11 +296,13 @@ class GameSession:
                                        wave_reached,
                                        self.kills, rank, has_next)
             self.result = 'victory'
+            sound_manager.play_victory()
         else:
             from ui import GameOverScreen
             self._end_screen = GameOverScreen(self.screen)
             self._end_screen.set_data(self.score, wave_reached, self.kills)
             self.result = 'game_over'
+            sound_manager.play_game_over()
 
     def _notify_msg(self, msg, color=C_WHITE, duration=1.5):
         self._notify       = msg

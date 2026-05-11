@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module projectile</title>
+</head><body>
+
+<table class="heading">
+<tr class="heading-text decor">
+<td class="title">&nbsp;<br><strong class="title">projectile</strong></td>
+<td class="extra"><a href=".">index</a><br><a href="file:d%3A%5Cpathfinder%20td%5Cprojectile.py">d:\pathfinder td\projectile.py</a></td></tr></table>
+    <p><span class="code">projectile.py&nbsp;-&nbsp;Hệ&nbsp;thống&nbsp;đạn&nbsp;bắn<br>
+Môn:&nbsp;IT003&nbsp;-&nbsp;Cấu&nbsp;trúc&nbsp;dữ&nbsp;liệu&nbsp;và&nbsp;Giải&nbsp;thuật&nbsp;-&nbsp;UIT</span></p>
+<p>
+<table class="section">
+<tr class="decor pkg-content-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Modules</strong></td></tr>
+    
+<tr><td class="decor pkg-content-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><table><tr><td class="multicolumn"><a href="math.html">math</a><br>
+</td><td class="multicolumn"><a href="os.html">os</a><br>
+</td><td class="multicolumn"><a href="pygame.html">pygame</a><br>
+</td><td class="multicolumn"><a href="sound_manager.html">sound_manager</a><br>
+</td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor index-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Classes</strong></td></tr>
+    
+<tr><td class="decor index-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl>
+<dt class="heading-text"><a href="builtins.html#object">builtins.object</a>
+</dt><dd>
+<dl>
+<dt class="heading-text"><a href="projectile.html#Projectile">Projectile</a>
+</dt></dl>
+</dd>
+</dl>
+ <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="Projectile">class <strong>Projectile</strong></a>(<a href="builtins.html#object">builtins.object</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code"><a href="#Projectile">Projectile</a>(start_x,&nbsp;start_y,&nbsp;target_enemy,&nbsp;damage,&nbsp;speed,&nbsp;color,&nbsp;radius,&nbsp;splash_radius=0,&nbsp;tower_type='archer')<br>
+&nbsp;<br>
+Đạn&nbsp;bay&nbsp;từ&nbsp;tháp&nbsp;đến&nbsp;quái.<br>
+&nbsp;<br>
+Đạn&nbsp;di&nbsp;chuyển&nbsp;về&nbsp;phía&nbsp;enemy&nbsp;mục&nbsp;tiêu.&nbsp;Nếu&nbsp;enemy&nbsp;chết&nbsp;trước&nbsp;khi<br>
+đạn&nbsp;đến&nbsp;nơi,&nbsp;đạn&nbsp;tự&nbsp;hủy.&nbsp;Khi&nbsp;chạm,&nbsp;gây&nbsp;sát&nbsp;thương&nbsp;(và&nbsp;AOE&nbsp;nếu&nbsp;có).<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn">Methods defined here:<br>
+<dl><dt><a name="Projectile-__init__"><strong>__init__</strong></a>(self, start_x, start_y, target_enemy, damage, speed, color, radius, splash_radius=0, tower_type='archer')</dt><dd><span class="code">Tham&nbsp;số:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;start_x,&nbsp;start_y&nbsp;(float):&nbsp;Tọa&nbsp;độ&nbsp;xuất&nbsp;phát&nbsp;(pixel).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;target_enemy&nbsp;(Enemy)&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;Quái&nbsp;mục&nbsp;tiêu.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;damage&nbsp;(int)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;Sát&nbsp;thương&nbsp;trực&nbsp;tiếp.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;speed&nbsp;(float)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;Tốc&nbsp;độ&nbsp;bay&nbsp;(pixel/giây).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;color&nbsp;(tuple)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;Màu&nbsp;đạn.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;radius&nbsp;(int)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;Bán&nbsp;kính&nbsp;đạn&nbsp;(vẽ).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;splash_radius&nbsp;(float)&nbsp;&nbsp;&nbsp;:&nbsp;Bán&nbsp;kính&nbsp;AOE&nbsp;(pixel),&nbsp;0&nbsp;nếu&nbsp;không&nbsp;có.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;tower_type&nbsp;(str)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;Loại&nbsp;tháp&nbsp;bắn.</span></dd></dl>
+
+<dl><dt><a name="Projectile-draw"><strong>draw</strong></a>(self, surface)</dt><dd><span class="code">Vẽ&nbsp;đạn&nbsp;và&nbsp;vết&nbsp;bay.</span></dd></dl>
+
+<dl><dt><a name="Projectile-update"><strong>update</strong></a>(self, dt, enemies, particles_list, gold_callback, kill_callback)</dt><dd><span class="code">Cập&nbsp;nhật&nbsp;vị&nbsp;trí&nbsp;đạn&nbsp;mỗi&nbsp;frame.<br>
+&nbsp;<br>
+Tham&nbsp;số:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dt&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(float):&nbsp;Delta&nbsp;time.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;enemies&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(list)&nbsp;:&nbsp;Để&nbsp;tính&nbsp;AOE.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;particles_list&nbsp;&nbsp;(list)&nbsp;:&nbsp;Thêm&nbsp;particles&nbsp;khi&nbsp;nổ.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;gold_callback&nbsp;&nbsp;&nbsp;(func)&nbsp;:&nbsp;Gọi&nbsp;khi&nbsp;giết&nbsp;quái&nbsp;để&nbsp;thêm&nbsp;vàng.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;kill_callback&nbsp;&nbsp;&nbsp;(func)&nbsp;:&nbsp;Gọi&nbsp;khi&nbsp;giết&nbsp;quái&nbsp;để&nbsp;tính&nbsp;điểm.</span></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object</span></dd>
+</dl>
+</td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor data-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Data</strong></td></tr>
+    
+<tr><td class="decor data-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><strong>BASE_DIR</strong> = r'D:\PathFinder TD'<br>
+<strong>CELL_BASE</strong> = 3<br>
+<strong>CELL_BLOCKED</strong> = 1<br>
+<strong>CELL_EMPTY</strong> = 0<br>
+<strong>CELL_OBSTACLE</strong> = 4<br>
+<strong>CELL_SIZE</strong> = 64<br>
+<strong>CELL_SPAWN</strong> = 2<br>
+<strong>C_BASE_CLR</strong> = (60, 120, 255)<br>
+<strong>C_BG</strong> = (12, 16, 28)<br>
+<strong>C_BLACK</strong> = (0, 0, 0)<br>
+<strong>C_BLUE</strong> = (60, 140, 255)<br>
+<strong>C_DARK_GRAY</strong> = (55, 58, 68)<br>
+<strong>C_GOLD</strong> = (255, 200, 50)<br>
+<strong>C_GRASS</strong> = (200, 140, 50)<br>
+<strong>C_GRASS_ALT</strong> = (190, 130, 45)<br>
+<strong>C_GRAY</strong> = (120, 125, 135)<br>
+<strong>C_GREEN</strong> = (60, 210, 60)<br>
+<strong>C_GRID_LINE</strong> = (35, 75, 35)<br>
+<strong>C_HIGHLIGHT</strong> = (255, 255, 100, 80)<br>
+<strong>C_HP_FULL</strong> = (60, 220, 80)<br>
+<strong>C_HP_LOW</strong> = (230, 60, 60)<br>
+<strong>C_HP_MED</strong> = (230, 200, 40)<br>
+<strong>C_HUD_BG</strong> = (18, 22, 40)<br>
+<strong>C_INVALID</strong> = (255, 60, 60, 80)<br>
+<strong>C_OBSTACLE</strong> = (55, 55, 65)<br>
+<strong>C_PANEL_BG</strong> = (14, 18, 32)<br>
+<strong>C_PANEL_BORDER</strong> = (40, 60, 100)<br>
+<strong>C_PATH_SHOW</strong> = (190, 150, 70)<br>
+<strong>C_PURPLE</strong> = (175, 100, 235)<br>
+<strong>C_RED</strong> = (220, 55, 55)<br>
+<strong>C_SPAWN_CLR</strong> = (220, 60, 60)<br>
+<strong>C_WHITE</strong> = (255, 255, 255)<br>
+<strong>ENEMY_DATA</strong> = {'goblin': {'color': (75, 210, 85), 'damage': 1, 'hp': 90, 'name': 'Quỷ Lùn', 'outline': (30, 130, 40), 'reward': 10, 'size': 16, 'speed': 2.8}, 'orc': {'color': (200, 85, 55), 'damage': 2, 'hp': 260, 'name': 'Orc Chiến Binh', 'outline': (130, 40, 20), 'reward': 25, 'size': 22, 'speed': 1.7}, 'troll': {'color': (85, 145, 190), 'damage': 5, 'hp': 700, 'name': 'Quái Khổng Lồ', 'outline': (40, 80, 120), 'reward': 60, 'size': 30, 'speed': 1.0}}<br>
+<strong>FPS</strong> = 60<br>
+<strong>GRID_COLS</strong> = 15<br>
+<strong>GRID_HEIGHT</strong> = 640<br>
+<strong>GRID_OFFSET_X</strong> = 0<br>
+<strong>GRID_OFFSET_Y</strong> = 80<br>
+<strong>GRID_ROWS</strong> = 10<br>
+<strong>GRID_WIDTH</strong> = 960<br>
+<strong>HP_LOSS_PENALTY</strong> = 30<br>
+<strong>HUD_HEIGHT</strong> = 80<br>
+<strong>KILL_SCORE</strong> = 10<br>
+<strong>MAPS_DIR</strong> = r'D:\PathFinder TD\maps'<br>
+<strong>PANEL_WIDTH</strong> = 320<br>
+<strong>PANEL_X</strong> = 960<br>
+<strong>SAVES_DIR</strong> = r'D:\PathFinder TD\saves'<br>
+<strong>STARTING_GOLD</strong> = 150<br>
+<strong>STARTING_HP</strong> = 20<br>
+<strong>STATE_EDITOR</strong> = 'editor'<br>
+<strong>STATE_GAME_OVER</strong> = 'game_over'<br>
+<strong>STATE_HIGHSCORE</strong> = 'highscore'<br>
+<strong>STATE_LEVEL_SELECT</strong> = 'level_select'<br>
+<strong>STATE_MENU</strong> = 'menu'<br>
+<strong>STATE_PAUSED</strong> = 'paused'<br>
+<strong>STATE_PLAYING</strong> = 'playing'<br>
+<strong>STATE_VICTORY</strong> = 'victory'<br>
+<strong>TOTAL_WAVES</strong> = 10<br>
+<strong>TOWER_DATA</strong> = {'archer': {'accent': (40, 160, 80), 'bullet_color': (255, 235, 60), 'bullet_size': 5, 'bullet_speed': 6.0, 'color': (80, 210, 110), 'cost': 50, 'damage': 18, 'desc': 'Bắn nhanh, ổn định<span class="repr">\n</span>Phù hợp mọi tình huống', 'fire_rate': 1.5, 'name': 'Xạ Thủ', ...}, 'cannon': {'accent': (110, 110, 125), 'bullet_color': (90, 90, 100), 'bullet_size': 8, 'bullet_speed': 4.5, 'color': (170, 170, 185), 'cost': 100, 'damage': 70, 'desc': 'Sát thương cao nhất<span class="repr">\n</span>Bắn chậm, AOE nhỏ', 'fire_rate': 0.45, 'name': 'Đại Bác', ...}, 'mage': {'accent': (110, 40, 180), 'bullet_color': (225, 130, 255), 'bullet_size': 7, 'bullet_speed': 7.0, 'color': (165, 85, 240), 'cost': 125, 'damage': 32, 'desc': 'Tầm bắn xa nhất<span class="repr">\n</span>Hiệu ứng phép thuật', 'fire_rate': 0.8, 'name': 'Pháp Sư', ...}}<br>
+<strong>TOWER_TYPES</strong> = ['archer', 'cannon', 'mage']<br>
+<strong>WAVE_BONUS_SCORE</strong> = 100<br>
+<strong>WAVE_BREAK_TIME</strong> = 5.0<br>
+<strong>WAVE_DEFINITIONS</strong> = [[('goblin', 6, 1.5)], [('goblin', 10, 1.2)], [('goblin', 8, 1.0), ('orc', 2, 3.0)], [('goblin', 10, 0.9), ('orc', 4, 2.0)], [('orc', 6, 1.5), ('goblin', 6, 0.8)], [('orc', 8, 1.2), ('troll', 1, 5.0)], [('goblin', 14, 0.7), ('orc', 5, 1.0), ('troll', 2, 4.0)], [('orc', 10, 0.9), ('troll', 3, 3.0)], [('goblin', 18, 0.55), ('orc', 8, 0.8), ('troll', 3, 3.0)], [('troll', 6, 2.0), ('orc', 12, 0.7), ('goblin', 20, 0.4)]]<br>
+<strong>WINDOW_HEIGHT</strong> = 720<br>
+<strong>WINDOW_TITLE</strong> = 'PathFinder TD - BFS Tower Defense'<br>
+<strong>WINDOW_WIDTH</strong> = 1280</td></tr></table>
+</body></html>

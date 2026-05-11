@@ -17,6 +17,7 @@ Yêu cầu: Python 3.8+, pygame >= 2.0
 import sys
 import pygame
 import font_manager
+import sound_manager
 from settings import *
 
 
@@ -40,6 +41,7 @@ class App:
         pygame.init()
         pygame.display.set_caption(WINDOW_TITLE)
         font_manager.init()
+        sound_manager.init()
 
         self.screen = pygame.display.set_mode(
             (WINDOW_WIDTH, WINDOW_HEIGHT),

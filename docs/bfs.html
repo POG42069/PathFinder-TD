@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module bfs</title>
+</head><body>
+
+<table class="heading">
+<tr class="heading-text decor">
+<td class="title">&nbsp;<br><strong class="title">bfs</strong></td>
+<td class="extra"><a href=".">index</a><br><a href="file:d%3A%5Cpathfinder%20td%5Cbfs.py">d:\pathfinder td\bfs.py</a></td></tr></table>
+    <p><span class="code">bfs.py&nbsp;-&nbsp;Thuật&nbsp;toán&nbsp;BFS&nbsp;và&nbsp;cấu&nbsp;trúc&nbsp;dữ&nbsp;liệu&nbsp;<a href="#Queue">Queue</a>&nbsp;(tự&nbsp;implement)<br>
+=========================================================<br>
+Môn&nbsp;&nbsp;&nbsp;:&nbsp;IT003&nbsp;-&nbsp;Cấu&nbsp;trúc&nbsp;dữ&nbsp;liệu&nbsp;và&nbsp;Giải&nbsp;thuật<br>
+Trường:&nbsp;Đại&nbsp;học&nbsp;Công&nbsp;nghệ&nbsp;Thông&nbsp;tin&nbsp;(UIT)<br>
+&nbsp;<br>
+Mô&nbsp;tả:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Module&nbsp;này&nbsp;tự&nbsp;implement&nbsp;cấu&nbsp;trúc&nbsp;dữ&nbsp;liệu&nbsp;<a href="#Queue">Queue</a>&nbsp;(Hàng&nbsp;đợi)&nbsp;và<br>
+&nbsp;&nbsp;&nbsp;&nbsp;thuật&nbsp;toán&nbsp;BFS&nbsp;(Breadth-First&nbsp;Search&nbsp;–&nbsp;Tìm&nbsp;kiếm&nbsp;theo&nbsp;chiều&nbsp;rộng)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;mà&nbsp;KHÔNG&nbsp;sử&nbsp;dụng&nbsp;bất&nbsp;kỳ&nbsp;thư&nbsp;viện&nbsp;ngoài&nbsp;nào.<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;BFS&nbsp;được&nbsp;dùng&nbsp;để&nbsp;tìm&nbsp;đường&nbsp;ngắn&nbsp;nhất&nbsp;cho&nbsp;quái&nbsp;vật&nbsp;di&nbsp;chuyển<br>
+&nbsp;&nbsp;&nbsp;&nbsp;từ&nbsp;điểm&nbsp;xuất&nbsp;hiện&nbsp;(spawn)&nbsp;đến&nbsp;căn&nbsp;cứ&nbsp;(base)&nbsp;trên&nbsp;bản&nbsp;đồ&nbsp;lưới&nbsp;2D.</span></p>
+<p>
+<table class="section">
+<tr class="decor index-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Classes</strong></td></tr>
+    
+<tr><td class="decor index-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl>
+<dt class="heading-text"><a href="builtins.html#object">builtins.object</a>
+</dt><dd>
+<dl>
+<dt class="heading-text"><a href="bfs.html#Queue">Queue</a>
+</dt></dl>
+</dd>
+</dl>
+ <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="Queue">class <strong>Queue</strong></a>(<a href="builtins.html#object">builtins.object</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code">Cấu&nbsp;trúc&nbsp;dữ&nbsp;liệu&nbsp;Hàng&nbsp;đợi&nbsp;(<a href="#Queue">Queue</a>)&nbsp;–&nbsp;tự&nbsp;implement&nbsp;bằng&nbsp;Python&nbsp;list.<br>
+&nbsp;<br>
+Nguyên&nbsp;tắc&nbsp;hoạt&nbsp;động:&nbsp;FIFO&nbsp;(First&nbsp;In&nbsp;–&nbsp;First&nbsp;Out)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Phần&nbsp;tử&nbsp;được&nbsp;thêm&nbsp;vào&nbsp;cuối&nbsp;(enqueue)&nbsp;và<br>
+&nbsp;&nbsp;&nbsp;&nbsp;lấy&nbsp;ra&nbsp;từ&nbsp;đầu&nbsp;(dequeue).<br>
+&nbsp;<br>
+Ứng&nbsp;dụng&nbsp;trong&nbsp;BFS:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;BFS&nbsp;cần&nbsp;duyệt&nbsp;các&nbsp;đỉnh&nbsp;theo&nbsp;thứ&nbsp;tự&nbsp;"gần&nbsp;trước&nbsp;–&nbsp;xa&nbsp;sau",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;đúng&nbsp;với&nbsp;nguyên&nbsp;tắc&nbsp;FIFO&nbsp;của&nbsp;<a href="#Queue">Queue</a>.<br>
+&nbsp;<br>
+Độ&nbsp;phức&nbsp;tạp:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;enqueue&nbsp;:&nbsp;O(1)&nbsp;–&nbsp;thêm&nbsp;vào&nbsp;cuối&nbsp;danh&nbsp;sách<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dequeue&nbsp;:&nbsp;O(n)&nbsp;–&nbsp;pop(0)&nbsp;phải&nbsp;dịch&nbsp;chuyển&nbsp;toàn&nbsp;bộ&nbsp;mảng<br>
+&nbsp;&nbsp;&nbsp;&nbsp;peek&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;O(1)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;is_empty:&nbsp;O(1)<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn">Methods defined here:<br>
+<dl><dt><a name="Queue-__init__"><strong>__init__</strong></a>(self)</dt><dd><span class="code">Khởi&nbsp;tạo&nbsp;hàng&nbsp;đợi&nbsp;rỗng.</span></dd></dl>
+
+<dl><dt><a name="Queue-__len__"><strong>__len__</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Queue-__repr__"><strong>__repr__</strong></a>(self)</dt><dd><span class="code">Return&nbsp;repr(self).</span></dd></dl>
+
+<dl><dt><a name="Queue-clear"><strong>clear</strong></a>(self)</dt><dd><span class="code">Xóa&nbsp;toàn&nbsp;bộ&nbsp;phần&nbsp;tử&nbsp;trong&nbsp;hàng&nbsp;đợi.</span></dd></dl>
+
+<dl><dt><a name="Queue-dequeue"><strong>dequeue</strong></a>(self)</dt><dd><span class="code">Lấy&nbsp;và&nbsp;xóa&nbsp;phần&nbsp;tử&nbsp;ở&nbsp;đầu&nbsp;hàng&nbsp;đợi.<br>
+&nbsp;<br>
+Trả&nbsp;về:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Phần&nbsp;tử&nbsp;đầu&nbsp;tiên&nbsp;trong&nbsp;hàng&nbsp;đợi.<br>
+&nbsp;<br>
+Ngoại&nbsp;lệ:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IndexError:&nbsp;Nếu&nbsp;hàng&nbsp;đợi&nbsp;rỗng.</span></dd></dl>
+
+<dl><dt><a name="Queue-enqueue"><strong>enqueue</strong></a>(self, item)</dt><dd><span class="code">Thêm&nbsp;phần&nbsp;tử&nbsp;vào&nbsp;cuối&nbsp;hàng&nbsp;đợi.<br>
+&nbsp;<br>
+Tham&nbsp;số:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;item:&nbsp;Phần&nbsp;tử&nbsp;cần&nbsp;thêm&nbsp;(bất&nbsp;kỳ&nbsp;kiểu&nbsp;dữ&nbsp;liệu&nbsp;nào).</span></dd></dl>
+
+<dl><dt><a name="Queue-is_empty"><strong>is_empty</strong></a>(self)</dt><dd><span class="code">Kiểm&nbsp;tra&nbsp;hàng&nbsp;đợi&nbsp;có&nbsp;rỗng&nbsp;không.<br>
+&nbsp;<br>
+Trả&nbsp;về:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;bool:&nbsp;True&nbsp;nếu&nbsp;rỗng,&nbsp;False&nbsp;nếu&nbsp;còn&nbsp;phần&nbsp;tử.</span></dd></dl>
+
+<dl><dt><a name="Queue-peek"><strong>peek</strong></a>(self)</dt><dd><span class="code">Xem&nbsp;phần&nbsp;tử&nbsp;đầu&nbsp;hàng&nbsp;đợi&nbsp;mà&nbsp;không&nbsp;xóa.<br>
+&nbsp;<br>
+Trả&nbsp;về:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Phần&nbsp;tử&nbsp;đầu&nbsp;tiên,&nbsp;hoặc&nbsp;None&nbsp;nếu&nbsp;hàng&nbsp;đợi&nbsp;rỗng.</span></dd></dl>
+
+<dl><dt><a name="Queue-size"><strong>size</strong></a>(self)</dt><dd><span class="code">Số&nbsp;lượng&nbsp;phần&nbsp;tử&nbsp;hiện&nbsp;có&nbsp;trong&nbsp;hàng&nbsp;đợi.<br>
+&nbsp;<br>
+Trả&nbsp;về:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;int:&nbsp;Số&nbsp;phần&nbsp;tử.</span></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object</span></dd>
+</dl>
+</td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor functions-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Functions</strong></td></tr>
+    
+<tr><td class="decor functions-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt><a name="-bfs"><strong>bfs</strong></a>(grid_data, start, end, rows, cols)</dt><dd><span class="code">Thuật&nbsp;toán&nbsp;BFS&nbsp;(Breadth-First&nbsp;Search)&nbsp;–&nbsp;Tìm&nbsp;kiếm&nbsp;theo&nbsp;chiều&nbsp;rộng.<br>
+&nbsp;<br>
+Mục&nbsp;đích:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Tìm&nbsp;đường&nbsp;đi&nbsp;ngắn&nbsp;nhất&nbsp;(theo&nbsp;số&nbsp;bước)&nbsp;từ&nbsp;ô&nbsp;`start`&nbsp;đến&nbsp;ô&nbsp;`end`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;trên&nbsp;bản&nbsp;đồ&nbsp;lưới&nbsp;2D,&nbsp;tránh&nbsp;các&nbsp;ô&nbsp;bị&nbsp;chặn.<br>
+&nbsp;<br>
+Nguyên&nbsp;lý&nbsp;hoạt&nbsp;động:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;1.&nbsp;Đưa&nbsp;ô&nbsp;bắt&nbsp;đầu&nbsp;vào&nbsp;hàng&nbsp;đợi&nbsp;(<a href="#Queue">Queue</a>).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;2.&nbsp;Lặp:&nbsp;lấy&nbsp;ô&nbsp;từ&nbsp;đầu&nbsp;hàng&nbsp;đợi,&nbsp;kiểm&nbsp;tra&nbsp;4&nbsp;hướng&nbsp;lân&nbsp;cận.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;3.&nbsp;Với&nbsp;mỗi&nbsp;ô&nbsp;lân&nbsp;cận&nbsp;hợp&nbsp;lệ&nbsp;(chưa&nbsp;thăm,&nbsp;không&nbsp;bị&nbsp;chặn):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;–&nbsp;Đánh&nbsp;dấu&nbsp;đã&nbsp;thăm<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;–&nbsp;Ghi&nbsp;nhận&nbsp;ô&nbsp;cha&nbsp;(để&nbsp;truy&nbsp;vết&nbsp;đường&nbsp;đi)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;–&nbsp;Đưa&nbsp;vào&nbsp;hàng&nbsp;đợi<br>
+&nbsp;&nbsp;&nbsp;&nbsp;4.&nbsp;Nếu&nbsp;tìm&nbsp;đến&nbsp;ô&nbsp;đích&nbsp;→&nbsp;truy&nbsp;vết&nbsp;ngược&nbsp;lại&nbsp;để&nbsp;lấy&nbsp;path.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;5.&nbsp;Nếu&nbsp;hàng&nbsp;đợi&nbsp;rỗng&nbsp;mà&nbsp;chưa&nbsp;đến&nbsp;đích&nbsp;→&nbsp;không&nbsp;có&nbsp;đường.<br>
+&nbsp;<br>
+Tham&nbsp;số:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;grid_data&nbsp;(list[list[int]]):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ma&nbsp;trận&nbsp;trạng&nbsp;thái&nbsp;ô&nbsp;lưới.&nbsp;Giá&nbsp;trị:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0&nbsp;(CELL_EMPTY)&nbsp;&nbsp;&nbsp;&nbsp;–&nbsp;đi&nbsp;được,&nbsp;xây&nbsp;tháp&nbsp;được<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;(CELL_BLOCKED)&nbsp;&nbsp;–&nbsp;bị&nbsp;tháp&nbsp;chặn,&nbsp;BFS&nbsp;không&nbsp;qua<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2&nbsp;(CELL_SPAWN)&nbsp;&nbsp;&nbsp;&nbsp;–&nbsp;điểm&nbsp;xuất&nbsp;phát,&nbsp;BFS&nbsp;bắt&nbsp;đầu<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3&nbsp;(CELL_BASE)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;–&nbsp;căn&nbsp;cứ,&nbsp;điểm&nbsp;đích&nbsp;BFS<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4&nbsp;(CELL_OBSTACLE)&nbsp;–&nbsp;địa&nbsp;hình&nbsp;cố&nbsp;định,&nbsp;không&nbsp;đi&nbsp;được<br>
+&nbsp;&nbsp;&nbsp;&nbsp;start&nbsp;(tuple[int,&nbsp;int]):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tọa&nbsp;độ&nbsp;(row,&nbsp;col)&nbsp;của&nbsp;ô&nbsp;xuất&nbsp;phát.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;end&nbsp;(tuple[int,&nbsp;int]):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tọa&nbsp;độ&nbsp;(row,&nbsp;col)&nbsp;của&nbsp;ô&nbsp;đích.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;rows&nbsp;(int):&nbsp;Tổng&nbsp;số&nbsp;hàng&nbsp;của&nbsp;lưới.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cols&nbsp;(int):&nbsp;Tổng&nbsp;số&nbsp;cột&nbsp;của&nbsp;lưới.<br>
+&nbsp;<br>
+Trả&nbsp;về:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;list[tuple[int,&nbsp;int]]:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Danh&nbsp;sách&nbsp;tọa&nbsp;độ&nbsp;(row,&nbsp;col)&nbsp;tạo&nbsp;thành&nbsp;đường&nbsp;đi&nbsp;ngắn&nbsp;nhất<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;từ&nbsp;`start`&nbsp;đến&nbsp;`end`,&nbsp;bao&nbsp;gồm&nbsp;cả&nbsp;2&nbsp;điểm&nbsp;đầu&nbsp;cuối.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Trả&nbsp;về&nbsp;danh&nbsp;sách&nbsp;rỗng&nbsp;[]&nbsp;nếu&nbsp;không&nbsp;tìm&nbsp;thấy&nbsp;đường.<br>
+&nbsp;<br>
+Độ&nbsp;phức&nbsp;tạp:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Thời&nbsp;gian&nbsp;:&nbsp;O(V&nbsp;+&nbsp;E)&nbsp;=&nbsp;O(rows&nbsp;×&nbsp;cols)&nbsp;&nbsp;–&nbsp;mỗi&nbsp;ô&nbsp;thăm&nbsp;tối&nbsp;đa&nbsp;1&nbsp;lần<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Không&nbsp;gian:&nbsp;O(rows&nbsp;×&nbsp;cols)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;–&nbsp;lưu&nbsp;trạng&nbsp;thái&nbsp;visited&nbsp;&amp;&nbsp;parent<br>
+&nbsp;<br>
+Ví&nbsp;dụ:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&gt;&gt;&gt;&nbsp;grid&nbsp;=&nbsp;[[0,0,0],[0,1,0],[0,0,0]]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&gt;&gt;&gt;&nbsp;<a href="#-bfs">bfs</a>(grid,&nbsp;(0,0),&nbsp;(2,2),&nbsp;3,&nbsp;3)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[(0,0),&nbsp;(1,0),&nbsp;(2,0),&nbsp;(2,1),&nbsp;(2,2)]</span></dd></dl>
+ <dl><dt><a name="-has_path"><strong>has_path</strong></a>(grid_data, start, end, rows, cols)</dt><dd><span class="code">Kiểm&nbsp;tra&nbsp;nhanh&nbsp;xem&nbsp;có&nbsp;tồn&nbsp;tại&nbsp;đường&nbsp;đi&nbsp;từ&nbsp;start&nbsp;đến&nbsp;end&nbsp;không.<br>
+&nbsp;<br>
+Trả&nbsp;về:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;bool:&nbsp;True&nbsp;nếu&nbsp;có&nbsp;đường&nbsp;đi&nbsp;hợp&nbsp;lệ.</span></dd></dl>
+</td></tr></table>
+</body></html>

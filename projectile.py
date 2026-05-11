@@ -6,6 +6,7 @@ Môn: IT003 - Cấu trúc dữ liệu và Giải thuật - UIT
 import pygame
 import math
 from settings import *
+import sound_manager
 
 
 class Projectile:
@@ -95,6 +96,7 @@ class Projectile:
         killed = self.target.take_damage(self.damage)
         spawn_hit_particles(particles_list, int(self.x), int(self.y),
                             self.color)
+        sound_manager.play_enemy_hit()
 
         if killed:
             spawn_explosion_particles(particles_list,
@@ -103,6 +105,7 @@ class Projectile:
                                       self.target.color)
             gold_callback(self.target.reward)
             kill_callback()
+            sound_manager.play_enemy_death()
 
         if self.splash > 0:
             for e in enemies:

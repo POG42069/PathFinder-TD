@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module wave</title>
+</head><body>
+
+<table class="heading">
+<tr class="heading-text decor">
+<td class="title">&nbsp;<br><strong class="title">wave</strong></td>
+<td class="extra"><a href=".">index</a><br><a href="file:d%3A%5Cpathfinder%20td%5Cwave.py">d:\pathfinder td\wave.py</a></td></tr></table>
+    <p><span class="code">wave.py&nbsp;-&nbsp;Quản&nbsp;lý&nbsp;hệ&nbsp;thống&nbsp;wave&nbsp;(đợt&nbsp;quái)<br>
+Môn:&nbsp;IT003&nbsp;-&nbsp;Cấu&nbsp;trúc&nbsp;dữ&nbsp;liệu&nbsp;và&nbsp;Giải&nbsp;thuật&nbsp;-&nbsp;UIT</span></p>
+<p>
+<table class="section">
+<tr class="decor pkg-content-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Modules</strong></td></tr>
+    
+<tr><td class="decor pkg-content-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><table><tr><td class="multicolumn"><a href="os.html">os</a><br>
+</td><td class="multicolumn"><a href="pygame.html">pygame</a><br>
+</td><td class="multicolumn"></td><td class="multicolumn"></td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor index-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Classes</strong></td></tr>
+    
+<tr><td class="decor index-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl>
+<dt class="heading-text"><a href="builtins.html#object">builtins.object</a>
+</dt><dd>
+<dl>
+<dt class="heading-text"><a href="wave.html#WaveManager">WaveManager</a>
+</dt></dl>
+</dd>
+</dl>
+ <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="WaveManager">class <strong>WaveManager</strong></a>(<a href="builtins.html#object">builtins.object</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code">Quản&nbsp;lý&nbsp;việc&nbsp;spawn&nbsp;quái&nbsp;theo&nbsp;từng&nbsp;wave.<br>
+&nbsp;<br>
+Wave&nbsp;Manager&nbsp;đọc&nbsp;WAVE_DEFINITIONS&nbsp;từ&nbsp;settings,<br>
+điều&nbsp;phối&nbsp;thời&nbsp;điểm&nbsp;spawn&nbsp;từng&nbsp;quái,&nbsp;và&nbsp;theo&nbsp;dõi<br>
+trạng&nbsp;thái&nbsp;hoàn&nbsp;thành&nbsp;của&nbsp;mỗi&nbsp;wave.<br>
+&nbsp;<br>
+Thuộc&nbsp;tính:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;wave_idx&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;–&nbsp;Chỉ&nbsp;số&nbsp;wave&nbsp;hiện&nbsp;tại&nbsp;(0-based).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;state&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;–&nbsp;Trạng&nbsp;thái:&nbsp;'idle'/'spawning'/'waiting'/'done'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;enemies&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;–&nbsp;Danh&nbsp;sách&nbsp;enemy&nbsp;đang&nbsp;sống&nbsp;trên&nbsp;bản&nbsp;đồ.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pending&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;–&nbsp;Hàng&nbsp;đợi&nbsp;các&nbsp;quái&nbsp;chưa&nbsp;spawn:&nbsp;[(enemy_type,&nbsp;delay)]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;spawn_timer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;–&nbsp;Thời&nbsp;gian&nbsp;chờ&nbsp;trước&nbsp;khi&nbsp;spawn&nbsp;quái&nbsp;tiếp&nbsp;theo.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;break_timer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;–&nbsp;Đếm&nbsp;ngược&nbsp;giữa&nbsp;các&nbsp;wave.<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn">Methods defined here:<br>
+<dl><dt><a name="WaveManager-__init__"><strong>__init__</strong></a>(self)</dt><dd><span class="code">Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</span></dd></dl>
+
+<dl><dt><a name="WaveManager-can_start_wave"><strong>can_start_wave</strong></a>(self)</dt><dd><span class="code">Có&nbsp;thể&nbsp;bắt&nbsp;đầu&nbsp;wave&nbsp;tiếp&nbsp;theo&nbsp;không?</span></dd></dl>
+
+<dl><dt><a name="WaveManager-get_break_timer"><strong>get_break_timer</strong></a>(self)</dt><dd><span class="code">Thời&nbsp;gian&nbsp;còn&nbsp;lại&nbsp;giữa&nbsp;wave.</span></dd></dl>
+
+<dl><dt><a name="WaveManager-get_enemies_remaining"><strong>get_enemies_remaining</strong></a>(self)</dt><dd><span class="code">Số&nbsp;quái&nbsp;còn&nbsp;lại&nbsp;(sống&nbsp;+&nbsp;chưa&nbsp;spawn).</span></dd></dl>
+
+<dl><dt><a name="WaveManager-get_progress_text"><strong>get_progress_text</strong></a>(self)</dt><dd><span class="code">Chuỗi&nbsp;hiển&nbsp;thị&nbsp;tiến&nbsp;trình&nbsp;wave.</span></dd></dl>
+
+<dl><dt><a name="WaveManager-start_next_wave"><strong>start_next_wave</strong></a>(self, grid)</dt><dd><span class="code">Bắt&nbsp;đầu&nbsp;wave&nbsp;tiếp&nbsp;theo&nbsp;–&nbsp;spawn&nbsp;quái&nbsp;từ&nbsp;WAVE_DEFINITIONS.<br>
+&nbsp;<br>
+Tham&nbsp;số:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;grid&nbsp;(Grid):&nbsp;Dùng&nbsp;để&nbsp;lấy&nbsp;path&nbsp;hiện&nbsp;tại&nbsp;cho&nbsp;quái.</span></dd></dl>
+
+<dl><dt><a name="WaveManager-update"><strong>update</strong></a>(self, dt, grid, on_wave_complete=None)</dt><dd><span class="code">Cập&nbsp;nhật&nbsp;<a href="#WaveManager">WaveManager</a>&nbsp;mỗi&nbsp;frame.<br>
+&nbsp;<br>
+Tham&nbsp;số:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dt&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(float):&nbsp;Delta&nbsp;time.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;grid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Grid)&nbsp;:&nbsp;Để&nbsp;lấy&nbsp;path&nbsp;BFS&nbsp;mới&nbsp;nhất.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;on_wave_complete&nbsp;(func)&nbsp;:&nbsp;Callback&nbsp;khi&nbsp;wave&nbsp;hoàn&nbsp;thành.</span></dd></dl>
+
+<hr>
+Readonly properties defined here:<br>
+<dl><dt><strong>all_enemies_dead</strong></dt>
+<dd><span class="code">Tất&nbsp;cả&nbsp;quái&nbsp;trên&nbsp;bản&nbsp;đồ&nbsp;đã&nbsp;bị&nbsp;hạ/đến&nbsp;base&nbsp;chưa?</span></dd>
+</dl>
+<dl><dt><strong>current_wave</strong></dt>
+<dd><span class="code">Wave&nbsp;hiện&nbsp;tại&nbsp;(1-based&nbsp;để&nbsp;hiển&nbsp;thị).</span></dd>
+</dl>
+<dl><dt><strong>is_done</strong></dt>
+<dd><span class="code">Đã&nbsp;hoàn&nbsp;thành&nbsp;tất&nbsp;cả&nbsp;waves&nbsp;chưa?</span></dd>
+</dl>
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object</span></dd>
+</dl>
+</td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor data-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Data</strong></td></tr>
+    
+<tr><td class="decor data-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><strong>BASE_DIR</strong> = r'D:\PathFinder TD'<br>
+<strong>CELL_BASE</strong> = 3<br>
+<strong>CELL_BLOCKED</strong> = 1<br>
+<strong>CELL_EMPTY</strong> = 0<br>
+<strong>CELL_OBSTACLE</strong> = 4<br>
+<strong>CELL_SIZE</strong> = 64<br>
+<strong>CELL_SPAWN</strong> = 2<br>
+<strong>C_BASE_CLR</strong> = (60, 120, 255)<br>
+<strong>C_BG</strong> = (12, 16, 28)<br>
+<strong>C_BLACK</strong> = (0, 0, 0)<br>
+<strong>C_BLUE</strong> = (60, 140, 255)<br>
+<strong>C_DARK_GRAY</strong> = (55, 58, 68)<br>
+<strong>C_GOLD</strong> = (255, 200, 50)<br>
+<strong>C_GRASS</strong> = (200, 140, 50)<br>
+<strong>C_GRASS_ALT</strong> = (190, 130, 45)<br>
+<strong>C_GRAY</strong> = (120, 125, 135)<br>
+<strong>C_GREEN</strong> = (60, 210, 60)<br>
+<strong>C_GRID_LINE</strong> = (35, 75, 35)<br>
+<strong>C_HIGHLIGHT</strong> = (255, 255, 100, 80)<br>
+<strong>C_HP_FULL</strong> = (60, 220, 80)<br>
+<strong>C_HP_LOW</strong> = (230, 60, 60)<br>
+<strong>C_HP_MED</strong> = (230, 200, 40)<br>
+<strong>C_HUD_BG</strong> = (18, 22, 40)<br>
+<strong>C_INVALID</strong> = (255, 60, 60, 80)<br>
+<strong>C_OBSTACLE</strong> = (55, 55, 65)<br>
+<strong>C_PANEL_BG</strong> = (14, 18, 32)<br>
+<strong>C_PANEL_BORDER</strong> = (40, 60, 100)<br>
+<strong>C_PATH_SHOW</strong> = (190, 150, 70)<br>
+<strong>C_PURPLE</strong> = (175, 100, 235)<br>
+<strong>C_RED</strong> = (220, 55, 55)<br>
+<strong>C_SPAWN_CLR</strong> = (220, 60, 60)<br>
+<strong>C_WHITE</strong> = (255, 255, 255)<br>
+<strong>ENEMY_DATA</strong> = {'goblin': {'color': (75, 210, 85), 'damage': 1, 'hp': 90, 'name': 'Quỷ Lùn', 'outline': (30, 130, 40), 'reward': 10, 'size': 16, 'speed': 2.8}, 'orc': {'color': (200, 85, 55), 'damage': 2, 'hp': 260, 'name': 'Orc Chiến Binh', 'outline': (130, 40, 20), 'reward': 25, 'size': 22, 'speed': 1.7}, 'troll': {'color': (85, 145, 190), 'damage': 5, 'hp': 700, 'name': 'Quái Khổng Lồ', 'outline': (40, 80, 120), 'reward': 60, 'size': 30, 'speed': 1.0}}<br>
+<strong>FPS</strong> = 60<br>
+<strong>GRID_COLS</strong> = 15<br>
+<strong>GRID_HEIGHT</strong> = 640<br>
+<strong>GRID_OFFSET_X</strong> = 0<br>
+<strong>GRID_OFFSET_Y</strong> = 80<br>
+<strong>GRID_ROWS</strong> = 10<br>
+<strong>GRID_WIDTH</strong> = 960<br>
+<strong>HP_LOSS_PENALTY</strong> = 30<br>
+<strong>HUD_HEIGHT</strong> = 80<br>
+<strong>KILL_SCORE</strong> = 10<br>
+<strong>MAPS_DIR</strong> = r'D:\PathFinder TD\maps'<br>
+<strong>PANEL_WIDTH</strong> = 320<br>
+<strong>PANEL_X</strong> = 960<br>
+<strong>SAVES_DIR</strong> = r'D:\PathFinder TD\saves'<br>
+<strong>STARTING_GOLD</strong> = 150<br>
+<strong>STARTING_HP</strong> = 20<br>
+<strong>STATE_EDITOR</strong> = 'editor'<br>
+<strong>STATE_GAME_OVER</strong> = 'game_over'<br>
+<strong>STATE_HIGHSCORE</strong> = 'highscore'<br>
+<strong>STATE_LEVEL_SELECT</strong> = 'level_select'<br>
+<strong>STATE_MENU</strong> = 'menu'<br>
+<strong>STATE_PAUSED</strong> = 'paused'<br>
+<strong>STATE_PLAYING</strong> = 'playing'<br>
+<strong>STATE_VICTORY</strong> = 'victory'<br>
+<strong>TOTAL_WAVES</strong> = 10<br>
+<strong>TOWER_DATA</strong> = {'archer': {'accent': (40, 160, 80), 'bullet_color': (255, 235, 60), 'bullet_size': 5, 'bullet_speed': 6.0, 'color': (80, 210, 110), 'cost': 50, 'damage': 18, 'desc': 'Bắn nhanh, ổn định<span class="repr">\n</span>Phù hợp mọi tình huống', 'fire_rate': 1.5, 'name': 'Xạ Thủ', ...}, 'cannon': {'accent': (110, 110, 125), 'bullet_color': (90, 90, 100), 'bullet_size': 8, 'bullet_speed': 4.5, 'color': (170, 170, 185), 'cost': 100, 'damage': 70, 'desc': 'Sát thương cao nhất<span class="repr">\n</span>Bắn chậm, AOE nhỏ', 'fire_rate': 0.45, 'name': 'Đại Bác', ...}, 'mage': {'accent': (110, 40, 180), 'bullet_color': (225, 130, 255), 'bullet_size': 7, 'bullet_speed': 7.0, 'color': (165, 85, 240), 'cost': 125, 'damage': 32, 'desc': 'Tầm bắn xa nhất<span class="repr">\n</span>Hiệu ứng phép thuật', 'fire_rate': 0.8, 'name': 'Pháp Sư', ...}}<br>
+<strong>TOWER_TYPES</strong> = ['archer', 'cannon', 'mage']<br>
+<strong>WAVE_BONUS_SCORE</strong> = 100<br>
+<strong>WAVE_BREAK_TIME</strong> = 5.0<br>
+<strong>WAVE_DEFINITIONS</strong> = [[('goblin', 6, 1.5)], [('goblin', 10, 1.2)], [('goblin', 8, 1.0), ('orc', 2, 3.0)], [('goblin', 10, 0.9), ('orc', 4, 2.0)], [('orc', 6, 1.5), ('goblin', 6, 0.8)], [('orc', 8, 1.2), ('troll', 1, 5.0)], [('goblin', 14, 0.7), ('orc', 5, 1.0), ('troll', 2, 4.0)], [('orc', 10, 0.9), ('troll', 3, 3.0)], [('goblin', 18, 0.55), ('orc', 8, 0.8), ('troll', 3, 3.0)], [('troll', 6, 2.0), ('orc', 12, 0.7), ('goblin', 20, 0.4)]]<br>
+<strong>WINDOW_HEIGHT</strong> = 720<br>
+<strong>WINDOW_TITLE</strong> = 'PathFinder TD - BFS Tower Defense'<br>
+<strong>WINDOW_WIDTH</strong> = 1280</td></tr></table>
+</body></html>

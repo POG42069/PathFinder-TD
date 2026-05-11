@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module particle</title>
+</head><body>
+
+<table class="heading">
+<tr class="heading-text decor">
+<td class="title">&nbsp;<br><strong class="title">particle</strong></td>
+<td class="extra"><a href=".">index</a><br><a href="file:d%3A%5Cpathfinder%20td%5Cparticle.py">d:\pathfinder td\particle.py</a></td></tr></table>
+    <p><span class="code">particle.py&nbsp;-&nbsp;Hệ&nbsp;thống&nbsp;hiệu&nbsp;ứng&nbsp;hạt&nbsp;(particles)<br>
+Môn:&nbsp;IT003&nbsp;-&nbsp;Cấu&nbsp;trúc&nbsp;dữ&nbsp;liệu&nbsp;và&nbsp;Giải&nbsp;thuật&nbsp;-&nbsp;UIT</span></p>
+<p>
+<table class="section">
+<tr class="decor pkg-content-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Modules</strong></td></tr>
+    
+<tr><td class="decor pkg-content-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><table><tr><td class="multicolumn"><a href="font_manager.html">font_manager</a><br>
+</td><td class="multicolumn"><a href="math.html">math</a><br>
+</td><td class="multicolumn"><a href="pygame.html">pygame</a><br>
+</td><td class="multicolumn"><a href="random.html">random</a><br>
+</td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor index-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Classes</strong></td></tr>
+    
+<tr><td class="decor index-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl>
+<dt class="heading-text"><a href="builtins.html#object">builtins.object</a>
+</dt><dd>
+<dl>
+<dt class="heading-text"><a href="particle.html#Particle">Particle</a>
+</dt><dd>
+<dl>
+<dt class="heading-text"><a href="particle.html#SparkParticle">SparkParticle</a>
+</dt></dl>
+</dd>
+<dt class="heading-text"><a href="particle.html#TextParticle">TextParticle</a>
+</dt></dl>
+</dd>
+</dl>
+ <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="Particle">class <strong>Particle</strong></a>(<a href="builtins.html#object">builtins.object</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code"><a href="#Particle">Particle</a>(x,&nbsp;y,&nbsp;vx,&nbsp;vy,&nbsp;color,&nbsp;lifetime,&nbsp;radius=3,&nbsp;gravity=0.0,&nbsp;alpha_fade=True)<br>
+&nbsp;<br>
+Hạt&nbsp;đơn&nbsp;lẻ&nbsp;cho&nbsp;hiệu&nbsp;ứng&nbsp;hình&nbsp;ảnh&nbsp;(nổ,&nbsp;đánh,&nbsp;etc.).<br>
+Mỗi&nbsp;particle&nbsp;có&nbsp;vị&nbsp;trí,&nbsp;vận&nbsp;tốc,&nbsp;màu&nbsp;sắc&nbsp;và&nbsp;lifetime.<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn">Methods defined here:<br>
+<dl><dt><a name="Particle-__init__"><strong>__init__</strong></a>(self, x, y, vx, vy, color, lifetime, radius=3, gravity=0.0, alpha_fade=True)</dt><dd><span class="code">Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</span></dd></dl>
+
+<dl><dt><a name="Particle-draw"><strong>draw</strong></a>(self, surface)</dt></dl>
+
+<dl><dt><a name="Particle-update"><strong>update</strong></a>(self, dt)</dt></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object</span></dd>
+</dl>
+</td></tr></table> <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="SparkParticle">class <strong>SparkParticle</strong></a>(<a href="particle.html#Particle">Particle</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code"><a href="#SparkParticle">SparkParticle</a>(x,&nbsp;y,&nbsp;vx,&nbsp;vy,&nbsp;color,&nbsp;lifetime,&nbsp;radius=3,&nbsp;gravity=0.0,&nbsp;alpha_fade=True)<br>
+&nbsp;<br>
+Hạt&nbsp;tia&nbsp;sáng&nbsp;(tia&nbsp;lửa&nbsp;dẹt).<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt>Method resolution order:</dt>
+<dd><a href="particle.html#SparkParticle">SparkParticle</a></dd>
+<dd><a href="particle.html#Particle">Particle</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="SparkParticle-draw"><strong>draw</strong></a>(self, surface)</dt></dl>
+
+<hr>
+Methods inherited from <a href="particle.html#Particle">Particle</a>:<br>
+<dl><dt><a name="SparkParticle-__init__"><strong>__init__</strong></a>(self, x, y, vx, vy, color, lifetime, radius=3, gravity=0.0, alpha_fade=True)</dt><dd><span class="code">Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</span></dd></dl>
+
+<dl><dt><a name="SparkParticle-update"><strong>update</strong></a>(self, dt)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="particle.html#Particle">Particle</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object</span></dd>
+</dl>
+</td></tr></table> <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="TextParticle">class <strong>TextParticle</strong></a>(<a href="builtins.html#object">builtins.object</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code"><a href="#TextParticle">TextParticle</a>(x,&nbsp;y,&nbsp;text,&nbsp;color=(255,&nbsp;230,&nbsp;50),&nbsp;font_size=18,&nbsp;lifetime=1.2)<br>
+&nbsp;<br>
+Hiển&nbsp;thị&nbsp;số&nbsp;sát&nbsp;thương&nbsp;/&nbsp;điểm&nbsp;nhảy&nbsp;lên.<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn">Methods defined here:<br>
+<dl><dt><a name="TextParticle-__init__"><strong>__init__</strong></a>(self, x, y, text, color=(255, 230, 50), font_size=18, lifetime=1.2)</dt><dd><span class="code">Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</span></dd></dl>
+
+<dl><dt><a name="TextParticle-draw"><strong>draw</strong></a>(self, surface)</dt></dl>
+
+<dl><dt><a name="TextParticle-update"><strong>update</strong></a>(self, dt)</dt></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object</span></dd>
+</dl>
+</td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor functions-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Functions</strong></td></tr>
+    
+<tr><td class="decor functions-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt><a name="-draw_particles"><strong>draw_particles</strong></a>(particles, surface)</dt><dd><span class="code">Vẽ&nbsp;tất&nbsp;cả&nbsp;particles.</span></dd></dl>
+ <dl><dt><a name="-spawn_base_hit_particles"><strong>spawn_base_hit_particles</strong></a>(particles, x, y)</dt><dd><span class="code">Hiệu&nbsp;ứng&nbsp;khi&nbsp;quái&nbsp;chạm&nbsp;base.</span></dd></dl>
+ <dl><dt><a name="-spawn_damage_text"><strong>spawn_damage_text</strong></a>(particles, x, y, damage)</dt><dd><span class="code">Hiển&nbsp;thị&nbsp;số&nbsp;sát&nbsp;thương.</span></dd></dl>
+ <dl><dt><a name="-spawn_explosion_particles"><strong>spawn_explosion_particles</strong></a>(particles, x, y, color, count=18)</dt><dd><span class="code">Tạo&nbsp;vụ&nbsp;nổ&nbsp;phong&nbsp;phú&nbsp;khi&nbsp;quái&nbsp;chết.</span></dd></dl>
+ <dl><dt><a name="-spawn_gold_text"><strong>spawn_gold_text</strong></a>(particles, x, y, amount)</dt><dd><span class="code">Hiển&nbsp;thị&nbsp;số&nbsp;vàng&nbsp;nhận&nbsp;được.</span></dd></dl>
+ <dl><dt><a name="-spawn_hit_particles"><strong>spawn_hit_particles</strong></a>(particles, x, y, color, count=6)</dt><dd><span class="code">Tạo&nbsp;tia&nbsp;sáng&nbsp;nhỏ&nbsp;khi&nbsp;đạn&nbsp;chạm&nbsp;quái.</span></dd></dl>
+ <dl><dt><a name="-update_particles"><strong>update_particles</strong></a>(particles, dt)</dt><dd><span class="code">Cập&nbsp;nhật&nbsp;tất&nbsp;cả&nbsp;particles&nbsp;và&nbsp;xóa&nbsp;cái&nbsp;đã&nbsp;chết.</span></dd></dl>
+</td></tr></table>
+</body></html>

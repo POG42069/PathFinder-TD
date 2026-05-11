@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module save_manager</title>
+</head><body>
+
+<table class="heading">
+<tr class="heading-text decor">
+<td class="title">&nbsp;<br><strong class="title">save_manager</strong></td>
+<td class="extra"><a href=".">index</a><br><a href="file:d%3A%5Cpathfinder%20td%5Csave_manager.py">d:\pathfinder td\save_manager.py</a></td></tr></table>
+    <p><span class="code">save_manager.py&nbsp;-&nbsp;Quản&nbsp;lý&nbsp;lưu&nbsp;điểm&nbsp;cao&nbsp;và&nbsp;dữ&nbsp;liệu&nbsp;game<br>
+Môn:&nbsp;IT003&nbsp;-&nbsp;Cấu&nbsp;trúc&nbsp;dữ&nbsp;liệu&nbsp;và&nbsp;Giải&nbsp;thuật&nbsp;-&nbsp;UIT</span></p>
+<p>
+<table class="section">
+<tr class="decor pkg-content-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Modules</strong></td></tr>
+    
+<tr><td class="decor pkg-content-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><table><tr><td class="multicolumn"><a href="json.html">json</a><br>
+</td><td class="multicolumn"><a href="os.html">os</a><br>
+</td><td class="multicolumn"></td><td class="multicolumn"></td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor functions-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Functions</strong></td></tr>
+    
+<tr><td class="decor functions-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt><a name="-get_best_score"><strong>get_best_score</strong></a>(level_id)</dt><dd><span class="code">Lấy&nbsp;điểm&nbsp;cao&nbsp;nhất&nbsp;của&nbsp;màn&nbsp;chơi.<br>
+&nbsp;<br>
+Trả&nbsp;về:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;hoặc&nbsp;0.</span></dd></dl>
+ <dl><dt><a name="-get_highscores"><strong>get_highscores</strong></a>(level_id)</dt><dd><span class="code">Lấy&nbsp;bảng&nbsp;điểm&nbsp;cao&nbsp;của&nbsp;màn&nbsp;chơi.<br>
+&nbsp;<br>
+Trả&nbsp;về:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;list[dict]:&nbsp;Danh&nbsp;sách&nbsp;entry&nbsp;(sorted&nbsp;by&nbsp;score&nbsp;desc).</span></dd></dl>
+ <dl><dt><a name="-get_stats"><strong>get_stats</strong></a>()</dt><dd><span class="code">Lấy&nbsp;thống&nbsp;kê&nbsp;toàn&nbsp;cục.<br>
+&nbsp;<br>
+Trả&nbsp;về:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dict&nbsp;với&nbsp;total_games,&nbsp;total_kills,&nbsp;unlocked_levels.</span></dd></dl>
+ <dl><dt><a name="-is_level_unlocked"><strong>is_level_unlocked</strong></a>(level_id)</dt><dd><span class="code">Kiểm&nbsp;tra&nbsp;màn&nbsp;chơi&nbsp;có&nbsp;bị&nbsp;khóa&nbsp;không.<br>
+&nbsp;<br>
+Trả&nbsp;về:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;bool.</span></dd></dl>
+ <dl><dt><a name="-load_save"><strong>load_save</strong></a>()</dt><dd><span class="code">Tải&nbsp;dữ&nbsp;liệu&nbsp;từ&nbsp;file&nbsp;lưu.<br>
+&nbsp;<br>
+Trả&nbsp;về:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dict:&nbsp;Dữ&nbsp;liệu&nbsp;game,&nbsp;hoặc&nbsp;default&nbsp;nếu&nbsp;file&nbsp;không&nbsp;tồn&nbsp;tại.</span></dd></dl>
+ <dl><dt><a name="-reset_saves"><strong>reset_saves</strong></a>()</dt><dd><span class="code">Xóa&nbsp;toàn&nbsp;bộ&nbsp;dữ&nbsp;liệu&nbsp;lưu&nbsp;(dùng&nbsp;cho&nbsp;debug).</span></dd></dl>
+ <dl><dt><a name="-submit_score"><strong>submit_score</strong></a>(level_id, score, wave_reached, victory=False)</dt><dd><span class="code">Lưu&nbsp;điểm&nbsp;mới&nbsp;cho&nbsp;màn&nbsp;chơi.<br>
+&nbsp;<br>
+Tham&nbsp;số:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;level_id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(int)&nbsp;&nbsp;:&nbsp;ID&nbsp;màn&nbsp;chơi&nbsp;(1/2/3).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;score&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(int)&nbsp;&nbsp;:&nbsp;Điểm&nbsp;đạt&nbsp;được.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;wave_reached&nbsp;(int)&nbsp;&nbsp;:&nbsp;Wave&nbsp;đã&nbsp;đến.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;victory&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(bool)&nbsp;:&nbsp;Có&nbsp;thắng&nbsp;không.<br>
+&nbsp;<br>
+Trả&nbsp;về:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;int:&nbsp;Thứ&nbsp;hạng&nbsp;mới&nbsp;(1=nhất),&nbsp;hoặc&nbsp;-1&nbsp;nếu&nbsp;không&nbsp;lọt&nbsp;top.</span></dd></dl>
+ <dl><dt><a name="-unlock_level"><strong>unlock_level</strong></a>(level_id)</dt><dd><span class="code">Mở&nbsp;khóa&nbsp;màn&nbsp;chơi&nbsp;theo&nbsp;ID.</span></dd></dl>
+ <dl><dt><a name="-update_kills"><strong>update_kills</strong></a>(count)</dt><dd><span class="code">Cộng&nbsp;thêm&nbsp;số&nbsp;quái&nbsp;tiêu&nbsp;diệt&nbsp;vào&nbsp;thống&nbsp;kê.</span></dd></dl>
+</td></tr></table><p>
+<table class="section">
+<tr class="decor data-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Data</strong></td></tr>
+    
+<tr><td class="decor data-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><strong>SAVES_DIR</strong> = r'D:\PathFinder TD\saves'</td></tr></table>
+</body></html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module font_manager</title>
+</head><body>
+
+<table class="heading">
+<tr class="heading-text decor">
+<td class="title">&nbsp;<br><strong class="title">font_manager</strong></td>
+<td class="extra"><a href=".">index</a><br><a href="file:d%3A%5Cpathfinder%20td%5Cfont_manager.py">d:\pathfinder td\font_manager.py</a></td></tr></table>
+    <p><span class="code">font_manager.py&nbsp;-&nbsp;Quản&nbsp;lý&nbsp;font&nbsp;hỗ&nbsp;trợ&nbsp;tiếng&nbsp;Việt&nbsp;đầy&nbsp;đủ<br>
+Môn:&nbsp;IT003&nbsp;-&nbsp;Cấu&nbsp;trúc&nbsp;dữ&nbsp;liệu&nbsp;và&nbsp;Giải&nbsp;thuật&nbsp;-&nbsp;UIT<br>
+&nbsp;<br>
+Vấn&nbsp;đề:&nbsp;pygame.font.SysFont('Arial')&nbsp;trên&nbsp;Windows&nbsp;không&nbsp;render<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;đúng&nbsp;dấu&nbsp;tiếng&nbsp;Việt&nbsp;(ă,&nbsp;â,&nbsp;ê,&nbsp;ơ,&nbsp;ư,&nbsp;thanh&nbsp;điệu...).<br>
+&nbsp;<br>
+Giải&nbsp;pháp:&nbsp;Dùng&nbsp;pygame.font.Font()&nbsp;với&nbsp;đường&nbsp;dẫn&nbsp;tuyệt&nbsp;đối&nbsp;đến&nbsp;file<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.ttf&nbsp;của&nbsp;Segoe&nbsp;UI&nbsp;–&nbsp;font&nbsp;mặc&nbsp;định&nbsp;của&nbsp;Windows&nbsp;có&nbsp;hỗ&nbsp;trợ<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Unicode&nbsp;/&nbsp;tiếng&nbsp;Việt&nbsp;đầy&nbsp;đủ.</span></p>
+<p>
+<table class="section">
+<tr class="decor pkg-content-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Modules</strong></td></tr>
+    
+<tr><td class="decor pkg-content-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><table><tr><td class="multicolumn"><a href="os.html">os</a><br>
+</td><td class="multicolumn"><a href="pygame.html">pygame</a><br>
+</td><td class="multicolumn"></td><td class="multicolumn"></td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor functions-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Functions</strong></td></tr>
+    
+<tr><td class="decor functions-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt><a name="-clear_cache"><strong>clear_cache</strong></a>()</dt><dd><span class="code">Xóa&nbsp;cache&nbsp;font&nbsp;(gọi&nbsp;khi&nbsp;đổi&nbsp;resolution).</span></dd></dl>
+ <dl><dt><a name="-get"><strong>get</strong></a>(size: int, bold: bool = False) -&gt; pygame.font.Font</dt><dd><span class="code">Trả&nbsp;về&nbsp;Font&nbsp;hỗ&nbsp;trợ&nbsp;tiếng&nbsp;Việt&nbsp;với&nbsp;kích&nbsp;thước&nbsp;và&nbsp;style&nbsp;yêu&nbsp;cầu.<br>
+&nbsp;<br>
+Font&nbsp;được&nbsp;cache&nbsp;để&nbsp;tránh&nbsp;tạo&nbsp;lại&nbsp;mỗi&nbsp;frame.<br>
+&nbsp;<br>
+Tham&nbsp;số:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;size&nbsp;(int)&nbsp;:&nbsp;Kích&nbsp;thước&nbsp;(pt).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;bold&nbsp;(bool):&nbsp;True&nbsp;→&nbsp;bold.<br>
+&nbsp;<br>
+Trả&nbsp;về:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pygame.font.Font</span></dd></dl>
+ <dl><dt><a name="-init"><strong>init</strong></a>()</dt><dd><span class="code">Khởi&nbsp;tạo&nbsp;font&nbsp;manager.<br>
+**Phải&nbsp;gọi&nbsp;sau&nbsp;pygame.<a href="#-init">init</a>()&nbsp;và&nbsp;pygame.display.set_mode().**</span></dd></dl>
+</td></tr></table><p>
+<table class="section">
+<tr class="decor data-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Data</strong></td></tr>
+    
+<tr><td class="decor data-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><strong>__annotations__</strong> = {'_cache': &lt;class 'dict'&gt;, '_path_bold': str | None, '_path_regular': str | None}</td></tr></table>
+</body></html>

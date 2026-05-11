@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module level</title>
+</head><body>
+
+<table class="heading">
+<tr class="heading-text decor">
+<td class="title">&nbsp;<br><strong class="title">level</strong></td>
+<td class="extra"><a href=".">index</a><br><a href="file:d%3A%5Cpathfinder%20td%5Clevel.py">d:\pathfinder td\level.py</a></td></tr></table>
+    <p><span class="code">level.py&nbsp;-&nbsp;Định&nbsp;nghĩa&nbsp;3&nbsp;màn&nbsp;chơi<br>
+Môn:&nbsp;IT003&nbsp;-&nbsp;Cấu&nbsp;trúc&nbsp;dữ&nbsp;liệu&nbsp;và&nbsp;Giải&nbsp;thuật&nbsp;-&nbsp;UIT<br>
+&nbsp;<br>
+Mỗi&nbsp;màn&nbsp;có:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;Tên&nbsp;và&nbsp;mô&nbsp;tả<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;Điểm&nbsp;spawn&nbsp;và&nbsp;base&nbsp;khác&nbsp;nhau<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;Vật&nbsp;cản&nbsp;cố&nbsp;định&nbsp;khác&nbsp;nhau<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;Màu&nbsp;sắc&nbsp;chủ&nbsp;đề&nbsp;riêng</span></p>
+<p>
+<table class="section">
+<tr class="decor functions-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Functions</strong></td></tr>
+    
+<tr><td class="decor functions-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt><a name="-get_all_levels"><strong>get_all_levels</strong></a>()</dt><dd><span class="code">Trả&nbsp;về&nbsp;danh&nbsp;sách&nbsp;tất&nbsp;cả&nbsp;màn&nbsp;chơi.</span></dd></dl>
+ <dl><dt><a name="-get_level"><strong>get_level</strong></a>(level_id)</dt><dd><span class="code">Lấy&nbsp;dữ&nbsp;liệu&nbsp;màn&nbsp;chơi&nbsp;theo&nbsp;ID&nbsp;(1-based).<br>
+&nbsp;<br>
+Trả&nbsp;về:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dict&nbsp;hoặc&nbsp;None&nbsp;nếu&nbsp;không&nbsp;tồn&nbsp;tại.</span></dd></dl>
+ <dl><dt><a name="-validate_level"><strong>validate_level</strong></a>(level_data)</dt><dd><span class="code">Kiểm&nbsp;tra&nbsp;màn&nbsp;chơi&nbsp;có&nbsp;hợp&nbsp;lệ&nbsp;không:<br>
+-&nbsp;Spawn&nbsp;và&nbsp;base&nbsp;nằm&nbsp;trong&nbsp;lưới<br>
+-&nbsp;Không&nbsp;trùng&nbsp;nhau<br>
+-&nbsp;Có&nbsp;đường&nbsp;đi&nbsp;từ&nbsp;spawn&nbsp;đến&nbsp;base&nbsp;(không&nbsp;bị&nbsp;vật&nbsp;cản&nbsp;chặn&nbsp;hết)<br>
+&nbsp;<br>
+Trả&nbsp;về:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;(bool,&nbsp;str):&nbsp;(is_valid,&nbsp;error_message)</span></dd></dl>
+</td></tr></table><p>
+<table class="section">
+<tr class="decor data-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Data</strong></td></tr>
+    
+<tr><td class="decor data-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><strong>GRID_COLS</strong> = 15<br>
+<strong>GRID_ROWS</strong> = 10<br>
+<strong>LEVELS</strong> = [{'base': (9, 14), 'desc': 'Bãi đất trống rộng lớn<span class="repr">\n</span>Hãy tự do xây tháp để ép quái đi theo ý muốn!', 'diff_color': (80, 210, 80), 'difficulty': 'Vô hạn', 'id': 1, 'name': 'Bãi Chiến Trường (Ma Trận)', 'obstacles': [(0, 14), (9, 0), (1, 14), (9, 1)], 'sky_color': (40, 80, 140), 'spawn': (0, 0), 'starting_gold': 250, ...}]</td></tr></table>
+</body></html>

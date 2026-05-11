@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module sound_manager</title>
+</head><body>
+
+<table class="heading">
+<tr class="heading-text decor">
+<td class="title">&nbsp;<br><strong class="title">sound_manager</strong></td>
+<td class="extra"><a href=".">index</a><br><a href="file:d%3A%5Cpathfinder%20td%5Csound_manager.py">d:\pathfinder td\sound_manager.py</a></td></tr></table>
+    <p><span class="code">sound_manager.py&nbsp;-&nbsp;Hệ&nbsp;thống&nbsp;quản&nbsp;lý&nbsp;âm&nbsp;thanh&nbsp;cho&nbsp;PathFinder&nbsp;TD<br>
+================================================================<br>
+Môn&nbsp;&nbsp;&nbsp;:&nbsp;IT003&nbsp;-&nbsp;Cấu&nbsp;trúc&nbsp;dữ&nbsp;liệu&nbsp;và&nbsp;Giải&nbsp;thuật<br>
+Trường:&nbsp;Đại&nbsp;học&nbsp;Công&nbsp;nghệ&nbsp;Thông&nbsp;tin&nbsp;(UIT)<br>
+&nbsp;<br>
+Mô&nbsp;tả:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Module&nbsp;này&nbsp;tạo&nbsp;và&nbsp;quản&nbsp;lý&nbsp;toàn&nbsp;bộ&nbsp;hiệu&nbsp;ứng&nbsp;âm&nbsp;thanh&nbsp;(SFX)&nbsp;cho&nbsp;game.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Tất&nbsp;cả&nbsp;âm&nbsp;thanh&nbsp;được&nbsp;**tổng&nbsp;hợp&nbsp;bằng&nbsp;code**&nbsp;(synthesize)&nbsp;sử&nbsp;dụng<br>
+&nbsp;&nbsp;&nbsp;&nbsp;numpy&nbsp;sine/square&nbsp;waves,&nbsp;KHÔNG&nbsp;cần&nbsp;file&nbsp;.wav/.mp3&nbsp;bên&nbsp;ngoài.<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Pygame.mixer&nbsp;được&nbsp;dùng&nbsp;để&nbsp;phát&nbsp;âm&nbsp;thanh&nbsp;real-time.<br>
+&nbsp;<br>
+Cách&nbsp;dùng:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;import&nbsp;sound_manager<br>
+&nbsp;&nbsp;&nbsp;&nbsp;sound_manager.<a href="#-init">init</a>()&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;Gọi&nbsp;sau&nbsp;pygame.<a href="#-init">init</a>()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;sound_manager.<a href="#-play_shoot">play_shoot</a>('archer')<br>
+&nbsp;&nbsp;&nbsp;&nbsp;sound_manager.<a href="#-play_enemy_death">play_enemy_death</a>()</span></p>
+<p>
+<table class="section">
+<tr class="decor pkg-content-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Modules</strong></td></tr>
+    
+<tr><td class="decor pkg-content-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><table><tr><td class="multicolumn"><a href="math.html">math</a><br>
+</td><td class="multicolumn"><a href="numpy.html">numpy</a><br>
+</td><td class="multicolumn"><a href="pygame.html">pygame</a><br>
+</td><td class="multicolumn"></td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor functions-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Functions</strong></td></tr>
+    
+<tr><td class="decor functions-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt><a name="-init"><strong>init</strong></a>()</dt><dd><span class="code">Khởi&nbsp;tạo&nbsp;hệ&nbsp;thống&nbsp;âm&nbsp;thanh.<br>
+&nbsp;<br>
+**Phải&nbsp;gọi&nbsp;sau&nbsp;pygame.<a href="#-init">init</a>()&nbsp;và&nbsp;pygame.mixer.<a href="#-init">init</a>().**<br>
+&nbsp;<br>
+Tạo&nbsp;tất&nbsp;cả&nbsp;sound&nbsp;effects&nbsp;bằng&nbsp;cách&nbsp;tổng&nbsp;hợp&nbsp;(synthesize)<br>
+sóng&nbsp;sine,&nbsp;sóng&nbsp;vuông,&nbsp;và&nbsp;nhiễu&nbsp;trắng.</span></dd></dl>
+ <dl><dt><a name="-is_muted"><strong>is_muted</strong></a>()</dt><dd><span class="code">Kiểm&nbsp;tra&nbsp;trạng&nbsp;thái&nbsp;tắt&nbsp;tiếng.<br>
+&nbsp;<br>
+Trả&nbsp;về:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;bool:&nbsp;True&nbsp;nếu&nbsp;đang&nbsp;tắt&nbsp;tiếng.</span></dd></dl>
+ <dl><dt><a name="-play_base_hit"><strong>play_base_hit</strong></a>()</dt><dd><span class="code">Phát&nbsp;âm&nbsp;thanh&nbsp;quái&nbsp;chạm&nbsp;căn&nbsp;cứ.</span></dd></dl>
+ <dl><dt><a name="-play_build"><strong>play_build</strong></a>()</dt><dd><span class="code">Phát&nbsp;âm&nbsp;thanh&nbsp;xây&nbsp;tháp&nbsp;thành&nbsp;công.</span></dd></dl>
+ <dl><dt><a name="-play_button_click"><strong>play_button_click</strong></a>()</dt><dd><span class="code">Phát&nbsp;âm&nbsp;thanh&nbsp;click&nbsp;nút&nbsp;bấm.</span></dd></dl>
+ <dl><dt><a name="-play_enemy_death"><strong>play_enemy_death</strong></a>()</dt><dd><span class="code">Phát&nbsp;âm&nbsp;thanh&nbsp;quái&nbsp;chết.</span></dd></dl>
+ <dl><dt><a name="-play_enemy_hit"><strong>play_enemy_hit</strong></a>()</dt><dd><span class="code">Phát&nbsp;âm&nbsp;thanh&nbsp;quái&nbsp;bị&nbsp;trúng&nbsp;đạn.</span></dd></dl>
+ <dl><dt><a name="-play_game_over"><strong>play_game_over</strong></a>()</dt><dd><span class="code">Phát&nbsp;nhạc&nbsp;thua&nbsp;cuộc.</span></dd></dl>
+ <dl><dt><a name="-play_no_gold"><strong>play_no_gold</strong></a>()</dt><dd><span class="code">Phát&nbsp;âm&nbsp;thanh&nbsp;không&nbsp;đủ&nbsp;vàng.</span></dd></dl>
+ <dl><dt><a name="-play_sell"><strong>play_sell</strong></a>()</dt><dd><span class="code">Phát&nbsp;âm&nbsp;thanh&nbsp;bán&nbsp;tháp.</span></dd></dl>
+ <dl><dt><a name="-play_shoot"><strong>play_shoot</strong></a>(tower_type='archer')</dt><dd><span class="code">Phát&nbsp;âm&nbsp;thanh&nbsp;bắn&nbsp;theo&nbsp;loại&nbsp;tháp.<br>
+&nbsp;<br>
+Tham&nbsp;số:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;tower_type&nbsp;(str):&nbsp;'archer',&nbsp;'cannon',&nbsp;hoặc&nbsp;'mage'.</span></dd></dl>
+ <dl><dt><a name="-play_victory"><strong>play_victory</strong></a>()</dt><dd><span class="code">Phát&nbsp;nhạc&nbsp;chiến&nbsp;thắng.</span></dd></dl>
+ <dl><dt><a name="-play_wave_complete"><strong>play_wave_complete</strong></a>()</dt><dd><span class="code">Phát&nbsp;âm&nbsp;thanh&nbsp;hoàn&nbsp;thành&nbsp;wave.</span></dd></dl>
+ <dl><dt><a name="-play_wave_start"><strong>play_wave_start</strong></a>()</dt><dd><span class="code">Phát&nbsp;âm&nbsp;thanh&nbsp;bắt&nbsp;đầu&nbsp;wave&nbsp;mới.</span></dd></dl>
+ <dl><dt><a name="-set_volume"><strong>set_volume</strong></a>(level)</dt><dd><span class="code">Đặt&nbsp;âm&nbsp;lượng&nbsp;cho&nbsp;tất&nbsp;cả&nbsp;sound&nbsp;effects.<br>
+&nbsp;<br>
+Tham&nbsp;số:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;level&nbsp;(float):&nbsp;Mức&nbsp;âm&nbsp;lượng&nbsp;từ&nbsp;0.0&nbsp;(tắt)&nbsp;đến&nbsp;1.0&nbsp;(tối&nbsp;đa).</span></dd></dl>
+ <dl><dt><a name="-toggle_mute"><strong>toggle_mute</strong></a>()</dt><dd><span class="code">Bật/tắt&nbsp;âm&nbsp;thanh.<br>
+&nbsp;<br>
+Trả&nbsp;về:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;bool:&nbsp;True&nbsp;nếu&nbsp;đang&nbsp;tắt&nbsp;tiếng&nbsp;(muted).</span></dd></dl>
+</td></tr></table><p>
+<table class="section">
+<tr class="decor data-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Data</strong></td></tr>
+    
+<tr><td class="decor data-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><strong>__annotations__</strong> = {'_sounds': dict[str, pygame.mixer.Sound]}</td></tr></table>
+</body></html>
